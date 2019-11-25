@@ -1,0 +1,2581 @@
+﻿Celem dokumentu jest wskazanie minimalnego zakresu testów funkcjonalnych
+Goal of the  following document is to create a basic set of functional tests for an acceptance of the system managing the classified documents office dla odbioru systemu obsługującego kancelarię tajną.
+Należy zauważyć, że w czasie przeglądu systemu do obsługi kancelarii niejawnej, stwierdzono brak implementacji procesu dekretacji dokumentu lub materiału przez upoważnionego użytkownika (przełożonego) dla pracownika, który będzie upoważniony do dostępu do tego dokumentu lub materiału.
+Noteworthy, while verifying the system managing classified documents office, lack of document or material posting handled by approved user (or user's supervisor) was identified.
+Zaimplementowany mechanizm nadawania uprawnień przy użyciu pisemnego upoważnienia, które użytkownik będzie za każdym razem przynosił do kancelarii, powoduje powstanie podatności związanej z nieuprawnionym dostępem do informacji chronionych w ramach kancelarii.
+Implemented authorisation process using written authorisation which forced a user to bring it in  to the office each time caused a susceptibility of unathorized access to classified information.
+Kancelista nie posiada żadnego narzędzia do weryfikacji autentyczności takiego upoważnienia.
+The clerk does not have any means to verify authenticity of such written authorisation.
+System w tym zakresie nie daje rękojmi zachowania tajemnicy.
+In this case, the system does not guarantee security of classified information.
+Jednocześnie należy zauważyć, iż na poziomie systemu nie zaproponowano żadnego mechanizmu ewidencjonowania takich upoważnień, co powoduje powstanie wątpliwości co do spełnienia postulatu rozliczalności z uprawnień użytkownika do dostępu
+In addition, there is no mechanism on the system level which would manage such written authorisations therefore it is doubtful that accountability of users' authorisation to classified information is possible. do informacji chronionych.
+W scenariuszu ST.2, każdy przypadek testowy został opracowany w dwóch wariantach: 
+In scenario ST.2, each test case was created in two variants:
+Model Kancelarii z dekretacją dokumentu.
+Classified Documents Office with document posting.
+Model Kancelarii z pisemnym upoważnieniem.
+Classified Document Office with written authorisation.
+Jednakże model  z pisemnym upoważnieniem  nigdy nie był brany pod uwagę w fazie projektowania systemu, gdyż takie rozwiązanie generuje kolejne dokumenty w formie papierowej, które należałoby odrębnie ewidencjonować i chronić.
+However, Classified Document Office with written authorisation, was not taken under consideration during system's design phase, as such approach generates another batch of paper document requiring separate posting and protection
+Taka koncepcja powoduje zbędną biurokratyzację w pracy Kancelarii, a dla potencjalnego Odbiorcy systemu może stanowić poważny argument przeciw wdrożeniu tego systemu.
+The written authorisation variant generates useless bureaucracy in the office and for prospective user of such system, it may be a sound argument against system implementation.
+Organizacja alternatywnych przypadków testowych w zamieszczonym układzie została zastosowana dla zachowania czytelności oraz zagwarantowania, iż niezależnie od zastosowanego modelu kancelarii, wszystkie przypadki testowe zostaną sprawdzone.
+The proposed set up of the test cases was meant to keep the clarity and to guarantee that regardless of model of the Classified Document Office used, all test cases will be verified.
+W czasie analizy i uszczegóławiania planu testów zauważono, że w fazie projektowania nie dostrzeżono jednego z aspektów, który może mieć znaczący wpływ
+During system's analysis and test plan creation, it has been noted that one of the key aspect of the systems security was looked over. dla bezpieczeństwa systemu.
+Pominięty został proces ewidencjonowania nowych znaczników, które po zarejestrowaniu w systemie stawałyby się znacznikami uprawnionymi do użycia w procesie znakowania rejestrowanych nośników informacji.
+The missing aspect was a registration of new tokens which, right after being registered, would become authorised tokens in the process of stencilling registered means of information. 
+Aktualny stan implementacji systemu pozwala na użycie dowolnego znacznika działającego na częstotliwości 13,6MHz, o ile tylko taki znacznik zostanie prawidłowo odczytany przez urządzenia udostępniające funkcjonalność odczytu.
+Current state if the implemented system allows using any token working at frequency of 13.6Mhz if a token is  correctly identified by devices allowing read-only access to the documents.
+W związku z powyższym, w kolejnej wersji systemu należało by rozważyć implementację funkcjonalności pozwalającej na rejestrację w bazie danych nowych znaczników
+Therefore, in future system's release, new functionality shall be considered to registrate new tokens in the database ze statusem  Uprawniony do użycia w systemie  i jednocześnie  Do wykorzystania , natomiast znacznik użyty do oznakowania nośnika informacji otrzymywałby status  Uprawniony do użycia w systemie  i jednocześnie  Wykorzystany .
+with status "Authorised for system use" and "To be used". However, tokens used in stencilling means of information, would be given "Authorized for system use" and "Used" status.
+Dla przetestowania funkcjonalności identyfikacji użycia znacznika nieuprawnionego
+To test functionality of identification of unauthorised token  w systemie, opracowano scenariusz testowy: ST_7.
+in the system use test script ST_7.
+Identyfikacja znaczników
+Identification of tokens,
+
+ST.1: Rejestracja nowego nośnika informacji wraz ze zdeponowaniem w szafie 
+ST.1: Registration of a new token with safe deposit
+
+ST.1_P.1 Weryfikacja trwałości połączenia znacznika RFID z powierzchnią nośnika informacji Cel:
+ST.1_P.1 Verifing stability of the RFID adhesion to the surface of the means of information. Target:
+
+Sprawdzenie, czy znacznik naniesiony na powierzchnię nośnika informacji przylega całą swoją powierzchnią i nie posiada tendencji do samoistnego odklejania się.
+Checking if the token attached to the surface of the means of information adheres to it completely and does not tend to separate 
+
+Uczestnicy: pracownik kancelarii, tester.
+Participants: the clerk, the tester.
+
+Warunki początkowe:
+Starting conditions:
+
+Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+The clerk logs into the system correctly.
+
+Pobranie czystego arkusza papieru z ryzy.
+Sheet of plain paper is collected.
+
+Pobranie arkusza papieru zadrukowanego tekstem z wypełnieniem powierzchni strony 5%, druk wykonany przy użyciu drukarki laserowej oraz atramentowej.
+Plain paper is printed with text where total of 5% of surface is printed. Laser or ink printer shall be used to print the sheet of paper.
+
+Pobranie arkusza papieru zadrukowanego z wypełnieniem powierzchni strony 100%, druk wykonany przy użyciu drukarki laserowej oraz atramentowej.
+Plain paper is printed with text where total of 100% of surface is printed. Laser or ink printer shall be used to print the sheet of paper.
+
+Pobranie zmiętego arkusza papieru zadrukowanego tekstem z wypełnieniem powierzchni strony 5%, druk wykonany przy użyciu drukarki laserowej oraz atramentowej.
+Crumpled paper is printed with text where total of 5% of surface is printed. Laser or ink printer shall be used to print the sheet of paper.
+
+Pobranie co najmniej 5 sztuk nośników informacji w postaci płyt CD lub DVD zapisanych dowolnymi danymi.
+Collect at least 5 pieces of information carrier as CD or DVD discs written with any data.
+Pobranie nośnika informacji w postaci dysku twardego.
+Collect a single information carrier as hard disk.
+
+Pobranie nośnika informacji w postaci laptopa.
+Collect a single information carrier as a laptop.
+Pobranie nośnika informacji w postaci tabletu lub telefonu.
+Collect a single information carrier a tablet or phone.
+Pobranie zawieszki umożliwiającej naklejenie znacznika RFID.
+Collect a pendant to attach to RFID token.
+Zawieszka ta zostanie dołączona do nośnika informacji w postaci pendrive.
+The pendant will be attached to an information carrier as pendrive.
+Pobranie odpowiedniej ilości nowych znaczników RFID i podjęcie próby naklejenia po jednej sztuce znacznika na każdym nośniku informacji.
+Collect enough of new RFID tokens and adhere each one to each of the information carrier.
+
+ Pobranie opakowania ochronnego i naklejenie na nim znacznika w taki sposób, aby próba otwarcia opakowania spowodowała uszkodzenie znacznika.
+Collect protective packaging and adhere the token in a way that if someone tries to open the package the token would be destroyed.
+
+Opakowanie powinno posiadać cechy uniemożliwiające jego otwarcie po prawidłowym jego zamknięciu i naklejeniu znacznika.
+it should not be possible to open protective packaging once token is attached to a correctly sealed protective packaging 
+Sekwencja czynności do wykonania:
+Sequence of activities to perform:
+
+ Naklejenie po jednym znaczniku na każdym z arkuszy.
+ Attach one token to each of the sheets of paper.
+
+Na arkuszach zadrukowanych znacznik jest naklejany na zadrukowanej stronie arkusza.
+If the sheet is printed, token is attached to a printed side.
+
+ Wzrokowa ocena jakości połączenia znacznika z arkuszem papieru.
+ Verify visually quality of token adherence to a paper.
+
+ Poddanie każdego z arkuszy dwustronnemu automatycznemu skanowaniu w układzie ADF (Automatic Document Feeder) kserokopiarki.
+ Perform two sided automatic document scanning in ADF setup - Automatic Document Feeder - of the xero machine.
+
+ Ponowna wzrokowa ocena jakości połączenia znacznika z arkuszem papieru.
+ Verify visually quality of adherence of the token to a paper.
+
+ Naklejenie znacznika na wszystkich płytach CD lub DVD.
+ Stick the token to all CD or DVD discs
+
+ Poddanie wszystkich nośników CD lub DVD próbie odczytu zawartości na komputerze wyposażonym w odpowiedni napęd CD/DVD.
+ Read the content of all CD and DVD drives in the computer equipped with CD or DVD drives.
+
+ Naklejenie znacznika na dysku twardym.
+ Stick the token to a HDD	
+
+ Naklejenie znacznika na obudowie laptopa.
+ Stick a token to the cover of the laptop
+
+ Naklejenie znacznika na obudowie tabletu i telefonu.
+ Stick a token to a cover  of a tablet or phone
+
+ Naklejenie znacznika na zawieszce i dołączenie jej do pendrive.
+ Stick a token to a pendant and attach it to a pendrive
+
+ Naklejenie znacznika na opakowaniu ochronnym w sposób uniemożliwiający jego otwarcie.
+ Stick a token to protective cover to make opening the cover impossible
+
+ Wzrokowa ocena jakości połączenia znacznika z nośnikiem informacji.
+ Verify visually quality of adherence of the token to an information carrier.
+
+ Test możliwości odczytania informacji z każdego znacznika umieszczonego na nośniku informacji oraz opakowaniu ochronnym.
+ Verify if it is possible to read each token's recorded information.
+ 
+ Test odczytu wykonywany jest przy wykorzystaniu wszystkich komponentów systemu oferujących funkcjonalność odczytu znaczników.
+ Verification shall be performed using all system's components offering reading of the tokens.
+
+ W przypadku poprawnego odczytu znacznika umieszczonego na pojedynczej płycie CD/DVD wykonanie próby odczytu znaczników przy większej ilości nośników ułożonych w stos.
+ In case of correct reading of the token placed on the CD or DVD disc, repeat reading using more tokens organised as a stack
+
+ Test jest wykonywany w dwóch wariantach: 
+ Test is performed in 2 variants:
+
+ każdy nośnik znajduje się w osobnym opakowaniu jednostkowym i opakowania są układane jedno na drugim, 
+ each token is placed in separate cover and each cover is put one on the other.
+ nośniki znajdują się w jednym opakowaniu zbiorczym (szpindel).
+ information carriers are placed into single box (szpindel)
+
+Oczekiwany efekt:
+Expected results:
+
+Znacznik jest trwale zespolony z nośnikiem informacji.
+Each token sticks to an information carrier permanently.
+
+Informacja ze znacznika jest możliwa do odczytania przez każdy komponent systemu oferujący funkcjonalność odczytu znaczników.
+It is possible to read information recorded in the token by each system's component which allows reading the tokens.
+
+Poprawny odczyt danych zapisanych na wszystkich nośnikach CD/DVD.
+It is possible to read all data recorded on each of the CD or DVD disc.
+
+Każda próba otwarcia opakowania ochronnego powoduje zniszczenie znacznika.
+Every time, one tries to open a protective cover the token is destroyed.
+
+ST.1_P.2 Odczyt znacznika zamaskowanego.
+ST.1_P.2 Reading the covered token.
+
+Cel:
+Target,
+
+Sprawdzenie, czy znacznik naniesiony na powierzchnię nośnika informacji zostanie prawidłowo odczytany po zastosowaniu maskowania przy wykorzystaniu folii aluminiowej oraz opakowania w kopertę papierową.
+Verification if token attached to the surface of means of information will be read correctly even if covered with aluminium foil or paper letter.
+Jest to test ulotu informacji o zastosowanej technologii znakowania nośników informacji.
+This is a test to check diffusion of the information on technology used to tag information carrier.
+
+Uczestnicy: pracownik kancelarii, tester.
+Users: the clerk, the tester.
+
+Warunki początkowe:
+Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ The clerk is logged into the system corretly.
+
+
+ Posiadanie wszystkich nośników informacji użytych w ST.1_P.1, prawidłowo oznakowanych znacznikami.
+ All information carriers used on ST.1_P.1 and their tokens are available.
+
+
+ Posiadanie folii aluminiowej przeznaczonej do pakowania produktów spożywczych.
+ Aluminium foil used to wrap the grocery up is available.
+
+
+ Posiadanie kopert papierowych o rozmiarach umożliwiających zapakowanie nośników informacji owiniętych w folię aluminiową.
+ Paper covers are available in sizes which allow to cover informations carriers wrapped in aluminium foil.
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform:
+
+ Owinięcie pojedynczą warstwą folii aluminiowej każdego z arkuszy papierowych nośników informacji oznakowanych znacznikami.
+ Wrap up with foil each of the paper sheet as a  information carrier tagged with tokens
+
+ Owinięcie pojedynczą warstwą folii aluminiowej nośnika informacji w postaci płyty CD lub DVD.
+ Wrap up with foil each of the CD or DVD disk  as a information carrier tagged with tokens
+
+ Owinięcie pojedynczą warstwą folii aluminiowej nośnika informacji w postaci dysku twardego.
+ Wrap up with foil  the HDD  as a  information carrier tagged with tokens
+
+ Owinięcie pojedynczą warstwą folii aluminiowej nośnika informacji w postaci laptopa.
+ Wrap up with foil a laptop as a  information carrier tagged with tokens
+
+ Owinięcie pojedynczą warstwą folii aluminiowej nośnika informacji w postaci tabletu.
+ Wrap up with foil each tablet  as a  information carrier tagged with tokens
+
+ Owinięcie pojedynczą warstwą folii aluminiowej nośnika informacji w postaci pendrive z dołączoną zawieszką z naniesionym znacznikiem.
+ Wrap up with foil the pendrive with a pendant as a  information carrier tagged with tokens
+
+ Owinięcie pojedynczą warstwą folii aluminiowej opakowania ochronnego zamkniętego i zabezpieczonego znacznikiem w sposób uniemożliwiający jego otwarcie.
+ Wrap up with foil the protective cover sealed with token to prevent it from opening as a  information carrier tagged with tokens
+
+ Umieszczenie każdego nośnika informacji w odrębnej kopercie papierowej.
+ Place each of the information carrier into a paper cover.
+ 
+ Test możliwości odczytania informacji z każdego zamaskowanego znacznika umieszczonego na nośniku informacji.
+ Verification if it is possible to read the information from covered token placed on each of the information carrier.  
+
+ W przypadku poprawnego odczytu znacznika umieszczonego na pojedynczej płycie CD/DVD wykonanie próby odczytu znaczników przy większej ilości nośników ułożonych w stos i owiniętych folią.
+ In case reading is correct for a single CD or DVD disc, another test should be performed with more CD or DVD discs with tokens wrapped up in aluminium foil and placed in stack.
+
+ Test jest wykonywany w dwóch wariantach: 
+ Each test is executed in two variants.
+ każdy nośnik znajduje się w osobnym opakowaniu jednostkowym i opakowania są układane jedno na drugim, a następnie owijane folią aluminiową w pojedynczy pakiet, Stos nośników musi być umieszczony w kopercie papierowej, 
+ Each information carrier is put into separate packaging, each packaging is stacked on the other and then wrapped up aluminium foil into single packaging. The stack is put into a paper cover.
+ nośniki znajdują się w jednym opakowaniu zbiorczym (szpindel) a następnie owijane folią aluminiową w pojedynczy pakiet, Stos nośników musi być umieszczony w kopercie papierowej.
+ All information carriers are put into a group packaging (szpindel) and then whole package is wrapped up in aluminium foil.  The stack of carriers is put into paper cover.
+
+Oczekiwany efekt:
+Expected results:
+
+Informacja ze znacznika nie jest możliwa do odczytania przez żaden z komponentów systemu oferujący funkcjonalność odczytu znaczników.
+It is not possible to read the information from the token by any of the the system's component offering token reading capabilities.
+
+ ST.1_P.3 Logowanie i wylogowanie uprawnionego użytkownika w aplikacji rejestracji dokumentu 
+ ST.1_P.3 Loging and logout of authorised user of document registration application
+
+Cel:
+Goal:
+
+ Weryfikacja poprawności przebiegu procesu logowania i wylogowania się uprawnionego użytkownika do aplikacji obsługującej rejestrację nowego dokumentu.
+ Verification if login and logout process of authorised use in document registration application is correct and secure.
+
+ Weryfikacja poprawności wylogowani zalogowanego poprawnie użytkownika po określonym czasie bezczynności w aplikacji.
+ Verification if authorised user is successfully logged out from the document registration application after defined inactivity time.
+
+Uczestnicy: pracownik kancelarii, tester
+Users:  the clerk, the tester.
+
+Warunki początkowe:
+Starting conditions.
+
+Próba logowania się do systemu uprawnionego użytkownika.
+Athorised user tried to log into a system
+
+
+Sekwencja A
+Sequence A
+
+Czynności do wykonania:
+Actions to perform:
+
+ Próba zalogowania się do aplikacji użytkownika posiadającego poprawne dane uwierzytelniające (login i hasło) na istniejące, poprawnie utworzone konto w aplikacji.
+ Login attempt of the user who has correct credentials (login / password) provided for an existing application user.
+
+ 
+ 
+
+Oczekiwany efekt:
+Expected result
+
+ Użytkownik otrzymuje dostęp do aplikacji, a następnie ma dostępną funkcjonalność poprawnego wylogowania się z systemu.
+ User is granted access to the application and then logout from the application is available.
+
+
+ Weryfikacja automatycznego wylogowania się po określonym czasie.
+ Automatic logout verification after defined inactivity time.
+ Tester wprowadza część danych na dowolnym formularzu, przerywa wprowadzanie danych i czeka na automatyczne wylogowanie, po 5 minutach (Dane nie powinny zostać zapisane).
+ Tester enters data to any of the form within application, pauses data entering and waits. After 5 minutes user is logged out automatically. entered data shall be recorded.
+
+Czynności do wykonania:
+Activities to perform:
+
+ Próba zalogowania się do aplikacji użytkownika posiadającego poprawne dane uwierzytelniające (login i hasło) na istniejące, poprawnie utworzone konto w aplikacji.
+ User tries to log into the application using correct credentials (login / password) for an existing correct account in the application.
+
+Oczekiwany efekt:
+Expected result:
+
+ Użytkownik otrzymuje dostęp do aplikacji, a następnie ma dostępną funkcjonalność poprawnego wylogowania się z systemu.
+ User is granted access to the application and then logout functionality is available.
+
+ Przy wykorzystaniu funkcjonalności wylogowania się użytkownika, użytkownik prawidłowo kończy pracę z aplikacją przez wylogowanie się z niej.
+ While using logout functionality, the user completes using the application by login out of it.
+
+Uwagi:
+Remarks:
+
+Czynności do wykonania:
+Activities to perform:
+
+
+ Próba zalogowania się do aplikacji użytkownika posiadającego niekompletne dane uwierzytelniające (poprawny login i niepoprawne hasło) na istniejące, poprawnie utworzone konto w aplikacji.
+ User with incomplete credentials (correct login incorrect password) tries to log into the application.  Login is a an account in the application created correctly.
+
+Oczekiwany efekt:
+Expected result:
+
+
+ Użytkownik nie uzyskuje dostępu do aplikacji.
+ User is denied access to the application.
+
+Kilkukrotne powtórzenie tej próby (maksymalnie 5 prób) powinno doprowadzić do zablokowania konta i wygenerowania alertu dla administratora systemu.
+5 attempts to login with incorrect credentials blocks the account and generates an alert to the application administrator.
+
+Po każdej próbie logowania się użytkownik otrzymuje w postaci zrozumiałego komunikatu informację o niepopranym przebiegu procesu logowania bez ujawniania przyczyn niepowodzenia procesu logowania.
+After each unsuccessful try to login, a user is prompted with a message on a failure to login without indicating the root cause of the failure.
+
+ ST.1_P.4 Logowanie nieuprawnionego użytkownika do aplikacji rejestracji dokumentu
+ ST.1_P.4 Login to the document registration application of the unauthorised user 
+
+Cel
+Goal
+
+Weryfikacja poprawności przebiegu procesu logowania się nieuprawnionego użytkownika do aplikacji obsługującej rejestrację nowego dokumentu.
+Verification of correctness of the login process of unauthorised user to the document registration application.
+
+Uczestnicy: pracownik kancelarii, tester
+Users: the clerk, the tester.
+
+Warunki początkowe:
+Starting conditions.
+
+Próba logowania się do systemu nieuprawnionego użytkownika.
+An unauthorised user attempts to log into the system
+
+
+Sekwencja czynności do wykonania:
+
+Sequence of actions to perform.
+
+ Próba zalogowania się do aplikacji użytkownika nieposiadającego danych uwierzytelniających (błędny login i błędne hasło) Oczekiwany efekt:
+ An attempt of unauthorised user to log into the application using incorrect credentials (wrong login  and wrong password). Expected results:
+
+
+ Użytkownik nie uzyskuje dostępu do aplikacji.
+ User is not granted an access to the application
+
+Kilkukrotne powtórzenie tej próby (maksymalnie 5 prób) powinno doprowadzić do wygenerowania alertu dla administratora systemu.
+A sequence of at most 5 unsuccessful login attempts should generate and alert to the system administrator.
+
+Po każdej próbie logowania się użytkownik otrzymuje informację o niepopranym przebiegu procesu logowania bez ujawnienia, która z części danych logowania była niepoprawna.
+After each unsuccessful login attempt a user will be informed on login failure without a failure cause.
+
+ ST.1_P.5 Rejestracja dokumentu przy wykorzystaniu poprawnych danych opisującymi rejestrowany dokument 
+ ST.1_P.5 Document posting (registering) using correct document information.
+
+Cel:
+Goal.
+
+Rejestracja wpływu dokumentu do Kancelarii
+Registering (posting) a document arrival in the Classified Document Office
+
+Uczestnicy: pracownik kancelarii, tester
+Users:      the Clerk, the Tester.
+
+Warunki początkowe:
+Starting conditions
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji
+ The clerk is logged into the system properly.
+
+Sekwencja A:
+Sequence A:
+
+Czynności do wykonania:
+Activities to perform:
+
+ Rejestracja przesyłki wpływającej do Kancelarii, formularz  Odbiór i sprawdzenie przesyłki .
+ Posting (registration) of incoming document into Classified Document Office system, form "Receiving and posting of the document"
+
+
+ Ustawienie statusu  Przesyłka zawiera nieprawidłowości: Nie 
+ Set the status of the document: Document contains abnormalities: No
+
+ Rejestracja przesyłki w  Dzienniku ewidencji  za pomocą przycisku  Dodaj nowe dane  
+ Posting (registering) the document into the Record Ledger using a button "Add new data".
+
+ Wypełnienie  Formularza dziennika ewidencji  poprawnymi danymi opisującymi wpływający dokument i zatwierdzenie wprowadzonych danych przyciskiem "Zapisz"
+ Filling in the Record Ledger Form with correct data describing incoming document. Confirm the data with the button "Save"
+
+
+ Zamknięcie  Formularza dziennika ewidencji  przyciskiem  Zamknij .
+ Closing the Record Ledger Form using button "Close"
+
+Oczekiwany efekt:
+Expected result:
+
+Pojawienie się w  Dzienniku Ewidencji  nowej pozycji opisującej rejestrowany dokument.
+New record entry describing document is available in the Record Ledger.
+
+Możliwość wydruku z systemu dziennika ewidencji przez pracownika kancelarii.
+It is possible to print the entry in the Record Ledger describing document.
+
+Czynności do wykonania:
+Activities to perform
+
+ Rejestracja przesyłki wpływającej do Kancelarii, formularz  Odbiór i sprawdzenie przesyłki .
+ Posting (registering) document arriving in the Classified Document Office, using application form "Receiving and posting of the document"
+
+
+ Ustawienie statusu  Przesyłka zawiera nieprawidłowości: Nie 
+ Setting the status of the entry: Document contains abnormalities: No
+
+ Rejestracja przesyłki w  Dzienniku ewidencji  za pomocą przycisku  Dodaj nowe dane  
+ Posting the document into the Record Ledger using a button "Add new data"
+
+ Wypełnienie  Formularza dziennika ewidencji  poprawnymi danymi opisującymi wpływający dokument i zatwierdzenie wprowadzonych danych przyciskiem  Zapisz i zamknij  Oczekiwany efekt:
+ Filling in the form of the Record Ledger using correct data describing arriving document and confirming new data with a button "Save and close".  
+ Expected Results:
+ 
+Pojawienie się w  Dzienniku Ewidencji  nowej pozycji opisującej rejestrowany dokument.
+New entry in Record Ledger with information describing arrived document.
+
+Możliwość wydruku z systemu dziennika ewidencji przez pracownika kancelarii.
+It is possible to print the entry in Record Ledger
+
+Czynności do wykonania:
+Activities to perform:
+
+ Rejestracja przesyłki wpływającej do Kancelarii, formularz  Odbiór i sprawdzenie przesyłki .
+ Posting (registering) document arriving in the Classified Document Office, using application form "Receiving and posting of the document"
+
+ Ustawienie statusu  Przesyłka zawiera nieprawidłowości: Nie .
+ Setting the status of the entry: "Document contains abnormalities: No"
+
+ Zaznaczenie atrybutu  Przesyłka do  Rąk własnych ?.
+ Setting the attribute "Delivery to own hands"
+
+ Rejestracja przesyłki w  Dzienniku ewidencji  za pomocą przycisku  Dodaj nowe dane  
+ Posting the document into the Record Ledger using a button "Add new data" 
+
+ Wypełnienie  Formularza dziennika ewidencji  poprawnymi danymi opisującymi wpływający dokument i zatwierdzenie wprowadzonych danych przyciskiem  Zapisz  
+ Filling in the form of the Record Ledger using correct data describing arriving document and confirming new data with a button "Save".  
+  
+
+ Zamknięcie  Formularza dziennika ewidencji  przyciskiem  Zamknij .
+ Closing the form of the Record Ledger with a button "close"
+
+Oczekiwany efekt:
+Expected Result
+
+Pojawienie się w  Dzienniku Ewidencji  nowej pozycji opisującej rejestrowany dokument.
+New entry in the Record Ledger describing arriving document.
+
+Możliwość wydruku z systemu dziennika ewidencji przez pracownika kancelarii.
+It is possible to print the entry in Record Ledger
+
+Czynności do wykonania:
+Activities to perform
+
+ Rejestracja przesyłki wpływającej do Kancelarii, formularz  Odbiór i sprawdzenie przesyłki .
+ Posting (registering) document arriving in the Classified Document Office, using application form "Receiving and posting of the document" 
+
+ Ustawienie statusu  Przesyłka zawiera nieprawidłowości: Tak .
+ Setting the status of the entry: Document contains abnormalities: Tak
+
+ Wypełnienie podformularza  Uszkodzona przesyłka .
+ Filling in a subform of the application "Document damaged"
+
+Oczekiwany efekt:
+Expected Results
+
+Pojawienie się w  Dzienniku Ewidencji  nowej pozycji opisującej rejestrowany dokument.
+New entry in Record Ledger with information describing arrived document.
+
+Możliwość wydruku dziennika ewidencji przez pracownika kancelarii.
+It is possible to print the entry in Record Ledger
+
+ ST.1_P.6 Wypełnienie formatki rejestracji dokumentu niepoprawnymi danymi opisującymi rejestrowany dokument Cel:
+ ST.1_P.6 Filling in the form of the application posting a document with improper data. 
+
+Goal:
+
+Próba rejestracji wpływu dokumentu do Kancelarii przy użyciu nieprawidłowych danych.
+An attempt to register an arrival in the Classified Document Office, of a document with improper data.
+
+
+Uczestnicy: pracownik kancelarii, tester
+Users:      the Clerk, the Tester
+
+Warunki początkowe:
+Starting conditions
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ The clerk is logged into the system correctly.
+
+ Wybranie wartości brzegowych daty wpływu (rejestracja dokumentu z datą przeszłą 01.01.1900 i datą przyszłą 31.12.2020.
+ Setting boundary values for a date of a document arrival  in the past 01.01.1900 to the future 31.12.2020
+ 
+
+Sekwencja A:
+Sequence A:
+
+Czynności do wykonania:
+Activities to perform:
+
+
+ Rejestracja przesyłki wpływającej do Kancelarii, formularz  Odbiór i sprawdzenie przesyłki .
+ Register an arrival in the Classified Document Office using a form "Receive and verify document"
+
+ Próba ręcznej modyfikacji zawartości pól  Data przyjęcia przesyłki  (Pole daty, godziny oraz minuty odbioru przesyłki).
+ An attempt to manually modify content of the fields for arrival date, arrival hour and arrival minut.
+
+ W przypadku powodzenia czynności 2, próba wprowadzenia wartości niedozwolonych (spoza zakresu dopuszczalnych dla daty, godziny i minuty, 2017.13.35 25:68).
+ An attempt to enter values outside of the allowed bounds 
+
+ Próba ręcznej modyfikacji zawartości pola  Rodzaj przesyłki .
+ An attempt to manual adjustment of a fields "Kind of Document"
+
+ Próba ręcznej modyfikacji zawartości pola  Przesyłka zawiera nieprawidłowości .
+ An attempt to manually adjust content of the field "Document contains abnormality"
+
+Oczekiwany efekt:
+Expected result
+
+Aplikacja nie pozwala użytkownikowi na nieuprawnioną modyfikację danych:
+Application does not allow to modify the data.
+
+ W pkt.
+2 zawartość pola opisującego datę, godzinę i minutę przyjęcia przesyłki powinna prezentować datę systemową, bez możliwości jej modyfikacji.
+ Fields arrival date and arrival time shall have system date and system time. It is impossible to modify these fields.
+
+
+ W pkt.
+4 i 5 – dane powinny być wyłącznie typu słownikowego.
+ Fields "Kind of Document" and "Document contains abnormality" shall not allow free text entry.
+
+Czynności do wykonania:
+Activities to perform
+
+ Próba rejestracji wpływu nowego dokumentu bez wypełnienia formatki  Odbiór i sprawdzenie przesyłki  Oczekiwany efekt:
+ An attempt to post arriving document without filling in the form "Receive and verify document". Expected result:
+
+ 
+
+Aplikacja nie pozwala użytkownikowi na rejestrację wpływu nowej przesyłki bez poprawnego wypełnienia formularza.
+The application does not allow a user to post a new document without filling in the form correctly/.
+
+Użytkownik jest informowany o nieprawidłowej czynności zrozumiałym komunikatem.
+User is informed on errors with a comprehensible information
+
+Czynności do wykonania:
+Activities to perform:
+
+
+ Rejestracja przesyłki wpływającej do Kancelarii, formularz  Odbiór i sprawdzenie przesyłki .
+ Posting a document arriving in Classified Document Office via a form "Receive and verify document"
+
+
+ Ustawienie statusu  Przesyłka zawiera nieprawidłowości: Nie .
+ Setting a status of the document "Document contains abnormalities: No"
+
+
+ Rejestracja przesyłki w  Dzienniku ewidencji  za pomocą przycisku  Dodaj nowe dane .
+ Posting a document into Record Ledger using a button "Add new data"
+
+
+ Podjęcie prób ręcznej modyfikacji w  Formularzu dziennika ewidencji  zawartości wymienionych pól: 
+ Spis – próba wprowadzenia losowego ciągu znaków.
+ An attempt to manual modification of following fields in Record Ledger form:
+ field "Spis" via random text 
+
+ Oznaczenie klauzuli tajności – wprowadzenie losowego ciągu znaków.
+ Field "classified" via random text
+
+ Numer kolejny zapisu – wprowadzenie dowolnej liczby całkowitej.
+ Field next record number  via random integer value
+
+ Data rejestracji dokumentu – ręczne wprowadzenie danych spoza zakresu dozwolonych dat, 2017.13.35.
+ Field "registration date of the document" - manual entry of a date outside of allowed bounds.
+
+ Data dokumentu otrzymanego – ręczne wprowadzenie danych spoza zakresu dozwolonych dat, 2017.13.35.
+ Field "Arrival date of the document" - manual entry of data outside of allowed bounds.
+
+ Zamknięcie  Formularza dziennika ewidencji  przyciskiem  Zamknij .
+ Closing of a form by pressing a button "close"
+
+Oczekiwany efekt:
+Expected results:
+
+Aplikacja nie zezwala na modyfikację zawartości pól wymienionych w 4.
+Application does not allow to modify content of fields: "classified","registration date of the document", "arrivial date of the document", "next record number"
+
+Czynności do wykonania:
+Activities to perform
+
+
+ Rejestracja przesyłki wpływającej do Kancelarii, formularz  Odbiór i sprawdzenie przesyłki .
+ Posting a document arriving in Classified Document Office via a form "Receive and verify document"
+
+ Ustawienie statusu  Przesyłka zawiera nieprawidłowości: Nie .
+ Setting a status of the document "Document contains abnormalities: No"
+
+ Rejestracja przesyłki w  Dzienniku ewidencji  za pomocą przycisku  Dodaj nowe dane .
+ Posting a document into Record Ledger using a button "Add new data"
+
+ Próba zapisu danych z niewypełnionego  Formularza dziennika ewidencji  za pomocą przycisku  Zapisz  oraz  Zapisz i zamknij .
+ An attempt to save an incomplete entry in Record Ledger using buttons "Save" and "Save and Close"
+
+ Oczekiwany efekt:
+ Expected result
+
+ Aplikacja nie pozwala użytkownikowi na rejestrację nowego dokumentu bez poprawnego wypełnienia formularza.
+ An application does not allow a user to register new document with incomplete data.
+
+ Użytkownik jest informowany o nieprawidłowej czynności zrozumiałym komunikatem.
+ A user is informed on the failure of registration with a comprehensive message.
+
+ ST.1_P.7 Korygowanie danych wprowadzonych przez użytkownika w trakcie rejestracji dokumentu Cel:
+ ST.1_P.7 Updating the data already recorded by the user while registering a new document. Goal:
+
+Próba skorygowania zapisu dotyczącego zarejestrowanego wcześniej dokumentu.
+An attempt to update an entry for already registered document.
+
+Uczestnicy: pracownik kancelarii, tester
+Users: the clerk, the test.
+
+Warunki początkowe:
+Starting conditions
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ User is logged in to the application correctly.
+
+ Istnienie w  Dzienniku ewidencji  co najmniej jednego zapisu o zewidencjonowanym dokumencie.
+ There is at least a single entry in Record Ledger about already registered document.
+
+Sekwencja czynności do wykonania:
+Sequence of actions.
+
+ Wskazanie wybranej do korekty pozycji w  Dzienniku ewidencji .
+ Selecting an entry in Record Ledger for an update.
+
+ Skorzystanie z przycisku  Otwórz dane .
+ Using a button "Open data"
+
+
+ Podjęcie próby modyfikacji dowolnego pola opisującego zarejestrowany dokument.
+ An attempt to modify any field describing a registered document.
+
+Oczekiwany efekt:
+Expected results:
+
+Aplikacja nie pozwala na modyfikację jakichkolwiek danych o zarejestrowanym dokumencie.
+An application does not allow to modify any fields in a registered document.
+
+Aplikacja udostępnia funkcjonalność oznaczenia wpisu jako  Błędny  i ponowną rejestrację przesyłki zgodnie z ST.1_P.5 Sekwencja A, przy wykorzystaniu użytych już wcześniej do jej oznakowania znaczników.
+An application exposes functionality to tag any entry as erroneous and allows to register the document once again according to ST.1_P.5 Sequence A using already used tokens.
+
+ ST.1_P.8 Dodanie wpisu do  Dziennika ewidencji  i odczyt prawidłowego znacznika umieszczonego na nośniku informacji Cel:
+ ST.1_P.8 Adding an entry to the Record Ledger and reading correct token adhered to the information carrier.  Goal:
+
+Próba odczytania prawidłowego znacznika umieszczonego na nośnikach informacji określonych w ST.1_P.1 
+An attempt to correctly read a token adhered to the information carrier indicated in ST.1_P.1
+
+Uczestnicy: pracownik kancelarii, tester
+Users:  the Clerk, the test.
+
+Warunki początkowe:
+Starting conditions:
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ User is logged in the application of Classified Documents Office correctly
+
+ Dostępność wszystkich nośników informacji na które naniesiono prawidłowe znaczniki.
+ All informations carriers with attached tokens are available.
+
+Sekwencja czynności do wykonania:
+Sequence of actions:
+
+
+ Wykonanie czynności opisanych w ST.1_P.5 i rejestracja kolejnych dokumentów z wykorzystaniem funkcjonalności odczytu znaczników naniesionych na poszczególne nośniki informacji użyte w ST.1_P.1.
+ Completing all actions indicated in ST.1_P.5 and registering following documents using the functionality to read tokens adhered to each of the information carriers as used in ST.1_P.1
+
+Oczekiwany efekt:
+Expected result:
+
+Aplikacja pozwala na prawidłową rejestrację dokumentu wraz z poprawnym odczytem numeru znacznika użytego do oznakowania każdego z nośników informacji.
+Application allows to register a document together with a correct reading of a number of the token used to tag each of the information carriers.
+
+ ST.1_P.9 Otwarcie szafy przy użyciu znacznika użytkownika niezarejestrowanego w systemie Cel:
+ ST.1_P.9 Opening of the safe using a token of an unregistered user. Goal:
+
+Próba zdeponowania w szafie poprawnie zarejestrowanych nośników informacji i otwarcia szafy przy użyciu znacznika użytkownika niezarejestrowanego w systemie.
+An attempt to post correctly registered information carriers into the safe and an attempt to open the safe using a token of an unregistered user.
+
+Uczestnicy: pracownik kancelarii, tester
+USers:  the clerk, the tester.
+
+Warunki początkowe:
+Starting conditions:
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ User is logged in the application of Classified Documents Office correctly
+
+ Posiadanie znacznika użytkownika niezarejestrowanego w systemie jako uprawniony do otwarcia szafy.
+ User has a token of user that is not registered in the system to open the safe.
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform:
+
+ Wykonanie wszystkich czynności opisanych w ST.1_P.7 i próba otwarcia szafy przy wykorzystaniu nieuprawnionego znacznika.
+ Executing of all actions described in ST.1_P.7 and an attempt ti open a safe using unauthorised token.
+
+Oczekiwany efekt:
+Expected result.
+
+System nie zezwala na otwarcie szafy.
+System does not allow to open the safe.
+
+Aplikacja generuje dla administratora alert o próbie nieuprawnionego dostępu do szafy.
+An application generates a meesage to the system administrator for unauthorised safe opening attempt.
+
+ ST.1_P.10 Zdeponowanie poprawnie zarejestrowanego dokumentu w szafie, do której dostęp odbywa się przy wykorzystaniu uprawnionego znacznika.
+ ST.1_p.10 Posting a correctly registered document to the safe when access to the safe is granted by an authorised token. 
+
+Cel:
+Goal:
+
+Próba zdeponowania w szafie poprawnie zarejestrowanych nośników informacji.
+An attempt to post correctly registered information carriers to a safe.
+
+Uczestnicy: pracownik kancelarii, tester
+Users: the clerk, the tester
+
+Warunki początkowe:
+Starting conditions.
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ User is logged in the application of Classified Documents Office correctly
+
+
+ Posiadanie znacznika zarejestrowanego w systemie jako uprawniony do otwarcia szafy.
+ User has a token registered in the system an authorised to open a safe.
+
+Sekwencja czynności do wykonania:
+Sequence of actions:
+
+
+ Wykonanie wszystkich czynności opisanych w ST.1_P.7 i próba otwarcia szafy przy wykorzystaniu uprawnionego znacznika.
+ Executing of all actions indicated in ST,1_P.7 and attempting to open the safe using authorised token.
+
+Oczekiwany efekt:
+Expected result.
+
+System zezwala użytkownikowi na otwarcie szafy, zdeponowanie nośników informacji oznaczonych znacznikami i prawidłowo odnotowuje fakt zdeponowania każdego nośnika.
+System allows a user to open a safe, allows to deposit information carriers tagged by tokens and it correctly and system records an event of each of information carriers posting.
+
+
+ ST.1_P.11 Zdeponowanie w szafie niekompletnego wielostronicowego dokumentu Cel:
+ ST.1_P.11 Posting incomplete multipage document to the safe. Goal:
+
+Rejestracja wpływu dokumentu wielostronicowego do Kancelarii.
+Registration of an arrival of multipage document in Classified Documents Office.
+
+Uczestnicy: pracownik kancelarii, tester
+User: the Clerk , the Tester.
+
+Warunki początkowe:
+Starting conditions
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji
+ User is logged in the application of Classified Documents Office correctly
+
+ Posiadanie 5 kart i 5 nowych znaczników.
+ User posses 5 cards and 5 new tokens.
+
+Sekwencja czynności do wykonania:
+Sequence of actions
+
+ Rejestracja przesyłki wpływającej do Kancelarii, formularz  Odbiór i sprawdzenie przesyłki .
+ Posting a document arriving in Classified Document Office via a form "Receive and verify document"
+
+
+ Ustawienie statusu  Przesyłka zawiera nieprawidłowości: Nie .
+ Setting a status of a document to "Document has abnormalities: No'
+
+ Rejestracja przesyłki w  Dzienniku ewidencji  za pomocą przycisku  Dodaj nowe dane .
+ Registering and event of document arrival into Record Ledger using a button "Add new data"
+
+
+ Wypełnienie  Formularza dziennika ewidencji  poprawnymi danymi opisującymi wpływający dokument i zatwierdzenie wprowadzonych danych przyciskiem  Zapisz .
+ Fill-in in a form for Record Ledger with data correctly describing arriving document. Form is confirmed using button "Save"
+
+
+ Zamknięcie  Formularza dziennika ewidencji  przyciskiem  Zamknij .
+ Closing the form using button "Close"
+
+
+ Oznakowanie poszczególnych kart dokumentu znacznikami.
+ Stencilling each page of the document with tokens.
+
+ Odczyt wszystkich pięciu znaczników na tacce i dołączenie odczytanych identyfikatorów do wpisu w dzienniku ewidencji zarejestrowanego dokumentu.
+ Reading all five tokens on the plate and recording token ids to the entry in Record Ledger for an arriving document.
+ 
+ Zdeponowanie w szafie zdekompletowanego dokumentu.
+ Posting an incomplete document to the safe.
+
+ Dekompletacja polega na odłączeniu od zarejestrowanego dokumentu jednej karty stanowiącej jego część i odłożeniu do szafy czterech kart oznaczonych znacznikami.
+ Incomplete document is a document without one of the registered pages and tagged.
+
+ Zamknięcie szafy
+ Closing a safe.
+
+Oczekiwany efekt:
+Expected results:
+
+System wygeneruje alert dla administratora oraz zasygnalizuje użytkownikowi zrozumiałym komunikatem zdeponowanie niekompletnego dokumentu.
+System generated an alert to an administrator and informs a user with a comprehensive message on incomplete document posting.
+
+ ST.1_P.14 Zdeponowanie w szafie dokumentu zawierającego więcej znaczników niż zarejestrowano w systemie Cel:
+ ST.1_P.14 Posting to a safe a document which has more tokens than registered in the system. Goal.
+
+Rejestracja wpływu dokumentu wielostronicowego do Kancelarii
+Posting of arrival of multipage document to the Classified Document Office.
+
+Uczestnicy: pracownik kancelarii, tester
+Users:  the Clerk, the Tester
+
+Warunki początkowe:
+Starting conditions.
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji
+ User is logged in the application of Classified Documents Office correctly
+
+
+ Posiadanie 6 kart i 6 nowych znaczników.
+ User has 6 pages and 6 new tokens
+
+Sekwencja czynności do wykonania:
+Sequence of actions
+
+ Rejestracja przesyłki wpływającej do Kancelarii, formularz  Odbiór i sprawdzenie przesyłki .
+ Posting a document arriving in Classified Document Office via a form "Receive and verify document"
+
+
+ Ustawienie statusu  Przesyłka zawiera nieprawidłowości: Nie .
+ Setting a status of a document to "Document has abnormalities: No'
+
+ Rejestracja przesyłki w  Dzienniku ewidencji  za pomocą przycisku  Dodaj nowe dane .
+ Registering and event of document arrival into Record Ledger using a button "Add new data"
+
+ Wypełnienie  Formularza dziennika ewidencji  poprawnymi danymi opisującymi wpływający dokument i zatwierdzenie wprowadzonych danych przyciskiem  Zapisz  
+ Fill-in in a form for Record Ledger with data correctly describing arriving document. Form is confirmed using button "Save"
+
+ Zamknięcie  Formularza dziennika ewidencji  przyciskiem  Zamknij .
+ Closing the form using button "Close"
+
+ Oznakowanie poszczególnych pięciu kart dokumentu znacznikami.
+ Marking each 5 cards of a document with tokens
+
+ Odczyt pięciu znaczników na tacce i dołączenie odczytanych identyfikatorów do zarejestrowanego dokumentu.
+ Reading of all 5 tokens on the tray and attaching all read tokens to the registered document.
+
+ Zdeponowanie w szafie wielostronicowego dokumentu składającego się z pięciu kart prawidłowo oznakowanych znacznikami wraz z dodatkową kartą również oznaczoną znacznikiem, lecz jest to karta, która nie wchodziła w skład dokumentu, który został zarejestrowany.
+ Posting a multipage document having five pages properly tagged with tokens together with additional page tagged with another token. Additional page was not included into the document that had been registered.
+
+ Zamknięcie szafy
+ Closing the safe.
+
+Oczekiwany efekt:
+Expected result
+
+System wygeneruje alert dla administratora oraz zasygnalizuje użytkownikowi zrozumiałym komunikatem poprawne zdeponowanie dokumentu oraz wykrycie niezarejestrowanego w systemie znacznika.
+System generates an alert to the administrator with a message information on an attempt to post unregistered token.
+
+
+ ST.1_P.15 Zdeponowanie poprawnie zarejestrowanego dokumentu w szafie z jednoczesnym zabraniem innego dokumentu zdeponowanego w szafie.
+ ST.1_P.15 Posting to the safe a properly registered document and simultaneously  taking away another document posted in the safe.
+
+Cel:
+Goal.
+
+Próba zdeponowania w szafie poprawnie zarejestrowanego dokumentu z jednoczesnym nieuprawnionym pobraniem innego dokumentu.
+An attempt to post to the safe a properly registered document and simultaneously unauthorised taking away another document 
+
+Uczestnicy: pracownik kancelarii, tester
+Users:      the Clerk, the Tester
+
+Warunki początkowe:
+Starting condition.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ User is logged in the application of Classified Documents Office correctly
+
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform
+
+ Udostępnienie osobie uprawnionej zdeponowanego w szafie dokumentu.
+ Making available a document posted to the save to an authorised person
+
+ Ponowne zdeponowanie w szafie pobranego dokumentu z jednoczesnym nieuprawnionym i nieodnotowanym w systemie pobraniem z szafy innego dokumentu.
+ Reposting of the document to the safe in addition to unauthorised and un-noted collection of another document from the safe.
+
+ Zamkniecie szafy.
+ Closing the safe.
+
+Oczekiwany efekt:
+Expected result.
+
+System wygeneruje alert dla administratora oraz zasygnalizuje użytkownikowi zrozumiałym komunikatem nieautoryzowane pobranie dokumentu z szafy.
+System generates an alert to the administrator and informs a user with a comprehensive message on unauthorised collection of the document for the safe.
+
+ ST.1_P.16 Niezdeponowanie w szafie żadnego dokumentu.
+ St.1_P.16 Failure to post any document to the safe
+
+Cel:
+Goal.
+
+Próba uruchomienia funkcjonalności zdeponowania w szafie poprawnie zarejestrowanego dokumentu bez jego fizycznego odłożenia do szafy.
+An attempt ot trigger a functionality of document posting to a safe using a document already registered without intent to post it to the safe.
+
+Uczestnicy: pracownik kancelarii, tester
+Users: the Clerk, the Tester.
+
+Warunki początkowe:
+Starting conditions.
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ User is logged in the application of Classified Documents Office correctly
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform.
+
+
+ Udostępnienie osobie uprawnionej zdeponowanego w szafie dokumentu.
+ Making available a document posted to the save to an authorised person
+
+
+ Uruchomienie funkcjonalności deponowania dokumentu w szafie bez jego fizycznego odłożenia do szafy.
+ Triggering a functionality of document posting to a safe using a document already registered without physical return of document to a safe.
+
+ Zamkniecie szafy.
+ Closing the safe.
+
+Oczekiwany efekt:
+Expected result,
+
+
+System wygeneruje alert dla administratora oraz zasygnalizuje użytkownikowi zrozumiałym komunikatem nieodłożenie dokumentu do szafy.
+System generates an alert to the administrator and informs user with comprehensive message on failure to physically return a document to a safe.
+
+
+ ST.1_P.17 Nieotwarcie drzwi szafy w czasie określonym przez system
+ ST.1_P.17 Failure to open a safe door in a designated timeframe.
+
+Cel:
+Goal.
+
+Próba udostępnienia dokumentu bez jego pobrania z szafy w określonym czasie.
+Failure to collect a document from a safe in a designated timeframe.
+
+
+Uczestnicy: pracownik kancelarii, tester
+Users: the Clerk, the tester.
+
+Warunki początkowe:
+Starting conditions.
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ User is logged in the application of Classified Documents Office correctly
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform.
+
+
+ Udostępnienie osobie uprawnionej zdeponowanego w szafie dokumentu.
+ An authorised user is given access to a document in the safe.
+
+ Nieotwarcie drzwi szafy w czasie 1 minuty.
+ a user fails to open a safe door in a designated timeframe.
+
+Oczekiwany efekt:
+Expected result.
+
+
+System zasygnalizuje użytkownikowi zrozumiałym komunikatem przekroczenie dopuszczalnego czasu na pobranie dokumentu z szafy i powróci do stanu czuwania.
+System informs a user with a comprehensive message on exceeding the designated timeframe to collect a document. System returns to sleep mode.
+
+System odnotowuje nieudaną czynność udostępnienia dokumentu.
+System records a failure to collect a document.
+
+ ST.1_P.18 Niezamknięcie drzwi szafy po zdeponowaniu dokumentu
+ ST.1_P.18 A failure to close a safe door after successful posting a document.
+
+Cel:
+Goal:
+
+Próba zdeponowania w szafie poprawnie zarejestrowanego dokumentu z jednoczesnym niezamknięciem drzwi szafy.
+An attempt to post a properly registered document to a safe without closing a safe door.
+
+Uczestnicy: pracownik kancelarii, tester
+Users: the Clerk, the Tester.
+
+Warunki początkowe:
+Starting conditions
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ User is logged in the application of Classified Documents Office correctly
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform:
+
+ Udostępnienie osobie uprawnionej zdeponowanego w szafie dokumentu.
+ Making available a registered document to an authorised person.
+
+ Ponowne zdeponowanie w szafie pobranego dokumentu.
+ Reposting a registered to document to a safe.
+
+
+ Niezamknięcie szafy.
+ Failure to close a safe door.
+
+Oczekiwany efekt:
+Expected result.
+
+System zasygnalizuje użytkownikowi zrozumiałym komunikatem konieczność zamknięcia drzwi szafy.
+System informs a user with a comprehensive message to close a safe door.
+
+ ST_2: Udostępnienie dokumentu
+ ST_2: Making document available.
+
+ ST.2_P.1 Dekretacja dokumentu w modelu Kancelarii z dekretacją dokumentu 
+ ST.2_P.1 Assigning a document to a user in a mode of Classified Documents Office system  that supports document assignment. 
+Cel:
+Goal:
+
+Dekretacja dokumentu przez osobę uprawnioną do wydania tej decyzji.
+Assignment of a  document to a user by a user who is authorized to perform assignment. 
+
+Uczestnicy: pracownik kancelarii, tester
+users:      the Clerk, the tester
+
+Warunki początkowe:
+Starting conditions
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który nie został zadekretowany.
+ An unassigned multipage document exists in the Record Ledger.
+
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ A multipage document must have each page tagged with a separate token.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który będzie upoważniany do dekretowania określonych dokumentów.
+ The clerk autorized to create an assignment of a multipage document must exist in the User Ledger.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który będzie upoważniany do pobrania określonych dokumentów.
+ A user authorized to receive assigment of a multipage document must exist in a User Ledger.
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform.
+
+ Pobranie zdeponowanego w szafie niezadekretowanego dokumentu (dokumentu, który nie posiada w systemie przypisanego mu upoważnionego do jego pobrania użytkownika a jedynie użytkownika upoważnionego do dekretacji).
+ An unassigned multipage document is collected from the safe.
+
+ Podjęcie przez dekretującego decyzji o wyborze osoby, która będzie upoważniona do pobrania dokumentu z Kancelarii.
+ The user authorizes another user to collect a document from the Classified Documents Office.
+
+ Przypisanie przez kancelistę w systemie uprawnienia dla wskazanego użytkownika do pobrania wybranego dokumentu.
+ The clerk assigns a document to a user who is authorized to collect the document from the Classified Documents Office.
+
+ Ponowne zdeponowanie dokumentu w szafie.
+ Document is stored in the safe. 
+
+Oczekiwany efekt:
+Expected result:
+
+System odnotuje dla wskazanego dokumentu nadanie uprawnienia (dekretacji) do pobrania dokumentu.
+System records an assigment to collect a document to an authorized user.
+
+ ST.2_P.2 Dodanie użytkownika oraz rejestracja jego uprawnień do korzystania z Kancelarii 
+	  Adding a user and registering his priviliges to a User Ledger of the Classified Documents Office.
+	
+ ST.2_P.2.a Model Kancelarii z dekretacją dokumentu
+	    Mode of Classified Documents Office system  that supports document assignment
+
+Cel:
+Goal.
+
+Rejestracja użytkownika, który jest uprawniony do dekretowania dokumentów oraz do pobierania z Kancelarii dokumentów, które zostały dla niego zadekretowane.
+Registering a user who is authorized to assign a document and authorized to collect documents assigned by himself from Classified Documents Office.
+
+Uczestnicy: pracownik kancelarii, tester
+Users:	    the Clerk, the Tester.
+
+Warunki początkowe:
+Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly  
+ 
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Zarejestrowanie w Rejestrze osób upoważnionych co najmniej dwóch użytkowników, którzy będą upoważnieni do dekretowania określonych dokumentów (Dekretujący).
+ Registering two users to a User Ledger who are authorized to assign specific type of documents. (Assignee)
+
+ Zarejestrowanie w Rejestrze osób upoważnionych co najmniej dwóch użytkowników, którzy będą upoważniani do pobrania dekretowanych na nich dokumentów (Pobierający).
+ Registering two users to a User Ledger who are authorized to collect specific type of documents.(Collectors)
+
+ Sprawdzenie, czy w Rejestrze osób upoważnionych zarejestrowano Dekretujących.
+ Validating if User Legder contains assignees
+
+ Zarejestrowanie podległości służbowej w relacji 1 Dekretujący – 1 Pobierający.
+ Registering in a User Ledger a subordinate relation Assignee - Collector
+
+
+ Zarejestrowanie w Rejestrze osób upoważnionych, kolejnego, co najmniej jednego użytkownika, który będzie upoważniony do dekretowania określonych dokumentów (Dekretujący).
+ Registering in a User Ledger at least one another user as an Assignee.
+
+ Modyfikacja podległości służbowej Pobierającego – jego aktualnym Dekretującym będzie użytkownik zarejestrowany w poprzedniej czynności.
+ Updating subordinate relation of a Collector user to point to Assignee from previous step. 
+
+Oczekiwany efekt:
+Expected results:
+
+System odnotuje rejestrację wszystkich użytkowników w Rejestrze osób upoważnionych z odpowiednim statusem (Dekretujący lub Pobierający).
+User Legder records registration of all users authorized to assign (Assignee) or collect (Collector) documents.
+
+System odnotuje wszystkie niezbędne informacje o użytkowniku (numer poświadczenia bezpieczeństwa, data ważności, klauzula informacji do jakiej użytkownik może mieć dostęp, numer zaświadczenia o przeszkoleniu).
+User Ledger records all reguired infromation about Assingee and Collector - security id, validation date,  authorization type, training id.
+
+System odnotuje zmianę podległości służbowej Pobierającego.
+System records any update in the subordinate relation of the Collector.
+
+ ST.2_P.2.b Model Kancelarii z pisemnym upoważnieniem
+ ST.2_P.2.n Mode of Classified Documents Office system  that supports written authorization
+
+Cel:
+Goal.
+
+Rejestracja użytkownika, który jest uprawniony do pobierania z Kancelarii dokumentów, co do których posiada pisemne upoważnienie.
+Registering in a User Ledger a user who is authorized to collect documents using written authorization.
+
+Uczestnicy: pracownik kancelarii, tester
+Users:      the Clerk, the Tester.
+
+Warunki początkowe:
+Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Sekwencja czynności do wykonania:
+ Starting conditions.
+
+ Zarejestrowanie w Rejestrze osób upoważnionych użytkownika posiadającego pisemne upoważnienie do korzystania z Kancelarii.
+ Registering in a User Ledger a user having a written autorization to use Classified Documents Office
+
+ Oczekiwany efekt:
+ Expected results:
+
+ System odnotuje rejestrację użytkownika w Rejestrze osób upoważnionych.
+ System records registration of a user having a written autorization to use Classified Documents Office in a User Leger 
+
+ System odnotuje wszystkie niezbędne informacje o użytkowniku (numer poświadczenia bezpieczeństwa, data ważności, klauzula informacji do jakiej użytkownik może mieć dostęp, numer zaświadczenia o przeszkoleniu).
+ System records  all necessary information about a user (security id, validation date,  authorization type, training id) 
+
+ ST.2_P.3 Wybór dla użytkownika takiego dokumentu, do którego nie jest upoważniony 
+          Selecting a document a user is not authorized to
+
+ ST.2_P.3.a Model Kancelarii z dekretacją dokumentu
+            Mode of Classified Documents Office system  that supports document assignment
+ Cel: Goal:
+
+ Na poziomie aplikacji - próba wybrania dla użytkownika dokumentu, który nie został dla niego zadekretowany.
+ On the application level - an attempt to select a document unassigned to a user.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions:
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany.
+ Properly assigned multiplage document exists in a Record Ledger.
+ 
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Multipage document must have each page tagged by separate token.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który nie będzie upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wskazanie w aplikacji użytkownika, który nie jest upoważniony do pobrania danego dokumentu.
+ Selecting an application user authorized to collect designated document.
+
+ Oczekiwany efekt:
+ Expected results:
+
+ System, na koncie danego użytkownika, wyświetla wyłącznie dokumenty, które zostały dla niego zadekretowane.
+ On the user account, system displays only user assigned documents.
+ 
+ Pozostałe dokumenty zarejestrowane w Kancelarii są dla konta danego użytkownika niewidoczne.
+ All other user assigned documents are unvisible.
+
+ ST.2_P.3.b Model Kancelarii z pisemnym upoważnieniem
+            Mode of Classified Documents Office system  that supports written authorization
+
+ Cel:
+ Goal:
+
+ Na poziomie aplikacji - próba wybrania dla użytkownika dokumentu, który nie został dla niego zadekretowany.
+ On the application level - an attempt to select a document for a user which was not assigned to a user.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowany z klauzulą Ściśle tajne.
+ Multipage document with clause "top secret" exists in a Record Ledger.
+
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Multipage document must have each page tagged with separate token.
+ 
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który nie będzie upoważniony do pobrania określonych dokumentów 
+ (użytkownik posiada uprawnienia do dostępu do dokumentów o klauzuli Zastrzeżone).
+ 
+ A user who is authorized to access documents with clause "Classified" exists in a User Legder.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wskazanie w aplikacji użytkownika, który został opisany w warunku początkowym nr 3.
+ the Clerk selects a user with a "Classified" authorizations.
+
+ Kancelista wybiera dla użytkownika dokument opisany w warunku początkowym nr 2.
+ The clerk selects a document with a clause "top secret" and assigns a document to a user with "Classified" authorizations.
+
+ Oczekiwany efekt:
+ Expected results: 
+ System generuje alert do administratora oraz zrozumiałym komunikatem informuje kancelistę o braku uprawnień do dostępu do dokumentu dla danego użytkownika.
+ System generates an alert to the administrator and informs a clerk with a message on lack of privilages to assign a document to a user.
+
+ ST.2_P.4 Wybór dla użytkownika takiego dokumentu, do którego jest upoważniony 
+	  Selecting a document to an authorized user.
+ ST.2_P4.a Model Kancelarii z dekretacją dokumentu
+           Mode of Classified Documents Office system  that supports document assignment
+ Cel:
+ Goal:
+
+ Na poziomie aplikacji - próba wybrania dla użytkownika dokumentu, który został dla niego zadekretowany.
+ On the application level - an  attempt to select an unassigned dokument to a user.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany.
+ A properly assigned multipage document exists in a Record Legder.
+ 
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page od the multipage document must be tagged with separate token.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wskazanie w aplikacji użytkownika, który jest upoważniony do pobrania danego dokumentu.
+ In the application, selecting a user who is authorized to collect designated document.
+ 
+ System, na koncie danego użytkownika wyświetla wyłącznie dokumenty, które zostały dla niego zadekretowane.
+ In the system, user account displayes only document assigned to a user.
+ 
+ Wśród tych dokumentów widoczny jest dokument, który ma zostać udostępniony użytkownikowi.
+ Selected document is visible on the user account.
+ 
+ Pozostałe dokumenty zarejestrowane w Kancelarii są dla konta danego użytkownika niewidoczne.
+ All other documents are invisible on the user accounts.
+
+ ST.2_P4.b Model Kancelarii z pisemnym upoważnieniem
+           Mode of Classified Documents Office system  that supports written authorization
+ Cel:
+ Goal:
+
+ Na poziomie aplikacji - próba wybrania dla użytkownika dokumentu, do którego posiada upoważnienie.
+ On the application level - an attempt to select a document to user with written authorization.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowany.
+ A properly assigned multipage document exists in a Record Legder.
+
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page od the multipage document must be tagged with separate token.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform: 
+
+ Wskazanie w aplikacji użytkownika, który został opisany w warunku początkowym nr 3.
+ The clerk selects a user with written autorization.
+
+ Kancelista wybiera dla użytkownika dokument opisany w warunku początkowym nr 2.
+ The clerk selects a document for a user with written authorisation.
+
+ Oczekiwany efekt:
+ Expected results:
+ System, na koncie danego użytkownika wyświetla dokumenty, które zostały dla niego zadekretowane.
+ System, on user account displays dokuments assigned to a user.
+ 
+ Wśród tych dokumentów widoczny jest dokument, który ma zostać udostępniony użytkownikowi.
+ System, on the user account displays selected document.
+ 
+ System informuje kancelistę zrozumiałym komunikatem o braku przeciwwskazań do udostępnienia użytkownikowi danego dokumentu.
+ System displayes a message with information on no contraindications to assign a document to a user.
+
+
+ ST.2_P.5 Wydanie użytkownikowi żądanego dokumentu do którego jest upoważniony 
+ ST.2_P.5 Issuing a requested document to a user who is authorized.	  
+
+ ST.2_P.5.a Model Kancelarii z dekretacją dokumentu
+	    Mode of Classified Documents Office system  that supports document assignment
+ Cel:
+ Goal:
+ Próba wydania użytkownikowi dokumentu, który został dla niego zadekretowany.
+ An attempt to issue a document assigned to a user.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page od the multipage document must be tagged with separate token.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wskazanie w aplikacji użytkownika, który jest upoważniony do pobrania danego dokumentu oraz wskazanie dokumentu, który ma zostać udostępniony.
+ In the application, the clerk selects a user who is authorized to collect required document and the clerk selects a document to be collected.
+
+ Otwarcie szafy z dokumentami i wyjęcie określonego dokumentu, który miał zostać udostępniony.
+ The clerk opens the safe and removes required document which is to be collected.
+
+ Zamknięcie szafy.
+ The clert closes the safe. 
+
+ Oczekiwany efekt:
+ Expected results:
+ System odnotowuje wydanie określonego dokumentu na koncie danego użytkownika oraz w Karcie udostępnień dokumentu.
+ System registeres collection of the required document on the users account and on document's account.
+
+ ST.2_P.5.b Model Kancelarii z pisemnym upoważnieniem
+            Mode of Classified Documents Office system  that supports written authorization
+ Cel: Goal:
+
+ Próba wydania użytkownikowi dokumentu, do którego posiada upoważnienie.
+ An attempt to issue a document to a user how is authorized.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+  Each page od the multipage document must be tagged with separate token.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wskazanie w aplikacji użytkownika, który jest upoważniony do pobrania danego dokumentu oraz wskazanie dokumentu, który ma zostać udostępniony.
+ In the application, the clerk selects a user who is authorized to collect required document and the clerk selects a document to be collected.
+
+ Otwarcie szafy z dokumentami i wyjęcie określonego dokumentu, który miał zostać udostępniony.
+ The clerk opens a safe with documents and removes required document to be collected.
+
+ Zamknięcie szafy.
+ The clerk closes the safe.
+
+ Oczekiwany efekt:
+ Expected results:
+ System odnotowuje wydanie określonego dokumentu na koncie danego użytkownika oraz w Karcie udostępnień dokumentu.
+ System records collection of required document on the users account and on document's account,
+
+ ST.2_P.6 Wydanie użytkownikowi dokumentu do którego nie jest upoważniony 
+ ST.2_P.6 Issueing a document to a user who is not authorized for a document.
+ ST.2_P.6.a Model Kancelarii z dekretacją dokumentu
+	    Mode of Classified Documents Office system  that supports document assignment
+
+Cel: Goal:
+
+ Próba wydania użytkownikowi innego dokumentu niż ten, który został dla niego zadekretowany.
+ An attempt to issue document not assigned to a user.
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany.
+ A properly assigned multipage document exists in a Record Legder.
+ 
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page od the multipage document must be tagged with separate token.
+
+ Istnienie w Dzienniku ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany dla innego użytkownika.
+ A multipage document exists in a Record Legder that was assigned to different user.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page of the document must be tagged with a token.
+ Each page od the multipage document must be tagged with separate token.
+ Istnienie w Rejestrze osób upoważnionych co najmniej dwóch użytkowników, którzy są upoważnieni do pobrania określonych, ale różnych dokumentów.
+ Two users assigned different documents must exist in a User Legder 
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wskazanie w aplikacji użytkownika, który jest upoważniony do pobrania danego dokumentu oraz wskazanie dokumentu, który ma zostać udostępniony.
+ Selecting a user authorized to collect a designated document and select a designated document to be collected.
+
+ Otwarcie szafy z dokumentami i wyjęcie innego dokumentu niż dokument, który miał zostać udostępniony.
+ The clerk opens the safe and removes a document that was not assigned to a user.
+ Zamknięcie szafy.
+ The clerk closed the safe.
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz informuje zrozumiałym komunikatem kancelistę o pobraniu z szafy innego dokumentu niż wskazany w aplikacji.
+ System generates a message with information on removing other than document selected in the application.
+
+ ST.2_P.6.b Model Kancelarii z pisemnym upoważnieniem
+            Mode of Classified Documents Office system  that supports written authorization
+ Cel: 
+ Goal:
+
+ Próba wydania użytkownikowi innego dokumentu niż ten, do którego posiada upoważnienie.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji co najmniej dwóch wielostronicowych dokumentów, które zostały poprawnie zarejestrowane.
+ Two properly registered multipage documents exist in Record Legder.
+
+ Dokumenty muszą posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each multipage document must have all pages tagged with separate token.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej dwóch użytkowników, którzy są upoważnieni do pobrania określonych, ale różnych dokumentów.
+ Two users exist in a User Legder assigned two different documents.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wskazanie w aplikacji użytkownika, który jest upoważniony do pobrania danego dokumentu oraz wskazanie dokumentu, który ma zostać udostępniony.
+ The clerk selects a user to collect designated document and selecting a designated document to be assigned to a user.
+
+ Otwarcie szafy z dokumentami i wyjęcie innego dokumentu niż dokument, który miał zostać udostępniony.
+ The clert opens the safe with documents and removes other than designated document.  
+
+
+ Zamknięcie szafy.
+ The clerk closes the safe.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz informuje zrozumiałym komunikatem kancelistę o pobraniu z szafy innego dokumentu niż wskazany w aplikacji.
+ System generate a message to the administrator and informs the clerk on removing other than designated document from the safe.
+
+ ST.2_P.7 Wydanie użytkownikowi żądanego dokumentu do którego jest upoważniony wraz z innym dokumentem do którego nie jest upoważniony 
+ ST.2_P.7 Issueing a document to an authorized user together with a document a user is unathorized to.
+
+ ST.2_P.7.a Model Kancelarii z dekretacją dokumentu
+	    Mode of Classified Documents Office system  that supports document assignment
+
+Cel: Goal:
+
+ Próba wydania użytkownikowi dokumentu zadekretowanego dla niego oraz innego dokumentu który nie został dla niego zadekretowany.
+ An attempt to issue an assigned document to an authorized user together with another unassigned document.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page od the multipage document must be tagged with separate token.
+
+ Istnienie w Dzienniku ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany dla innego użytkownika.
+ A properly registered document assigned to another user exists in Record Legder. 
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+  Each page od the multipage document must be tagged with separate token.
+ Istnienie w Rejestrze osób upoważnionych co najmniej dwóch użytkowników, którzy są upoważnieni do pobrania określonych, ale różnych dokumentów.
+ Two users must exist in User Legder assigned two different documents.
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wskazanie w aplikacji użytkownika, który jest upoważniony do pobrania danego dokumentu oraz wskazanie dokumentu, który ma zostać udostępniony.
+ The clerk selects a user authorized to collect a designed document and selects a document to be collected by a user.
+
+ Otwarcie szafy z dokumentami i wyjęcie określonego dokumentu, który został na niego zadekretowany z jednoczesnym wyjęciem innego dokumentu niezadekretowanego na danego użytkownika.
+ The clerk opens the safe with document and removes assigned document for a user together with another unassigned document
+
+ Zamknięcie szafy.
+ The clerk closes the safe.
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz informuje zrozumiałym komunikatem kancelistę o pobraniu z szafy właściwego dokumentu oraz innego dokumentu niezadekretowanego na danego użytkownika.
+
+
+ ST.2_P.7.b Model Kancelarii z pisemnym upoważnieniem
+            Mode of Classified Documents Office system  that supports written authorization
+Cel: Goal:
+
+ Próba wydania użytkownikowi dokumentu do którego jest upoważniony oraz innego dokumentu który nie posiada upoważnienia.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji dwóch wielostronicowych dokumentów, który zostały poprawnie zarejestrowane.
+
+ Dokumenty muszą posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej dwóch użytkowników, którzy są upoważnieni do pobrania określonych, ale różnych dokumentów.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wskazanie w aplikacji użytkownika, który jest upoważniony do pobrania danego dokumentu oraz wskazanie dokumentu, który ma zostać udostępniony.
+
+ Otwarcie szafy z dokumentami i wyjęcie określonego dokumentu, który został na niego zadekretowany z jednoczesnym wyjęciem innego dokumentu do którego użytkownik nie posiada upoważnienia.
+
+ Zamknięcie szafy.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz informuje zrozumiałym komunikatem kancelistę o pobraniu z szafy właściwego dokumentu oraz innego dokumentu do którego dany użytkownik nie ma upoważnienia.
+
+ ST.2_P.8 Wydanie użytkownikowi żądanego dokumentu do którego jest upoważniony wraz z innym dokumentem do którego jest upoważniony 
+
+ ST.2_P.8.a Model Kancelarii z dekretacją dokumentu
+	    Mode of Classified Documents Office system  that supports document assignment
+
+Cel: Goal:
+
+ Próba wydania użytkownikowi dokumentu zadekretowanego dla niego oraz innego dokumentu który również został dla niego zadekretowany, lecz nie było żądania jego udostępnienia.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji dwóch wielostronicowych dokumentów, które zostały poprawnie zadekretowany.
+ 
+ Dokumenty muszą posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważnieni do pobrania określonych, ale różnych dokumentów.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wskazanie w aplikacji użytkownika, który jest upoważniony do pobrania danego dokumentu oraz wskazanie dokumentu, który ma zostać udostępniony.
+
+ Otwarcie szafy z dokumentami i wyjęcie określonego dokumentu, który został na niego zadekretowany z jednoczesnym wyjęciem innego dokumentu zadekretowanego na danego użytkownika, lecz ten dokument nie został odnotowany w aplikacji jako udostępniany użytkownikowi w danym momencie.
+
+ Zamknięcie szafy.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz informuje zrozumiałym komunikatem kancelistę o pobraniu z szafy właściwego dokumentu oraz innego dokumentu, dla którego nie było żądania udostępnienia.
+
+
+ ST.2_P.8.b Model Kancelarii z pisemnym upoważnieniem
+ Mode of Classified Documents Office system  that supports written authorization
+
+ Przypadek testowy nie wystąpi, ze względu na to, iż użytkownik każdorazowo musi przedstawić pisemne upoważnienie do dostępu do danego dokumentu.
+
+
+ ST.2_P.9 Wydanie użytkownikowi żądanego, wielostronicowego dokumentu do którego jest upoważniony w stanie zdekompletowania 
+
+ ST.2_P.9.a Model Kancelarii z dekretacją dokumentu
+	    Mode of Classified Documents Office system  that supports document assignment
+
+Cel: Goal:
+
+ Próba wydania użytkownikowi zdekompletowanego dokumentu, który został dla niego zadekretowany.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+  Each page od the multipage document must be tagged with separate token.
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wskazanie w aplikacji użytkownika, który jest upoważniony do pobrania danego dokumentu oraz wskazanie dokumentu, który ma zostać udostępniony.
+
+
+ Otwarcie szafy z dokumentami i wyjęcie określonego dokumentu, który miał zostać udostępniony.
+ 
+ Dokument z szafy zostaje wyjęty w stanie zdekompletowanym, czyli co najmniej jedna karta pozostaje w szafie.
+
+ Zamknięcie szafy.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz informuje zrozumiałym komunikatem kancelistę o pobraniu z szafy właściwego dokumentu w stanie zdekompletowanym.
+
+ ST.2_P.9.b Model Kancelarii z pisemnym upoważnieniem
+ Mode of Classified Documents Office system  that supports written authorization
+
+Cel: Goal:
+
+ Próba wydania użytkownikowi zdekompletowanego dokumentu, do którego jest upoważniony.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowany.
+
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+  Each page od the multipage document must be tagged with separate token.
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniony do pobrania określonych dokumentów.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wskazanie w aplikacji użytkownika, który jest upoważniony do pobrania danego dokumentu oraz wskazanie dokumentu, który ma zostać udostępniony.
+
+ Otwarcie szafy z dokumentami i wyjęcie określonego dokumentu, który miał zostać udostępniony.
+
+ Dokument z szafy zostaje wyjęty w stanie zdekompletowanym, czyli co najmniej jedna karta pozostaje w szafie.
+
+ Zamknięcie szafy.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz informuje zrozumiałym komunikatem kancelistę o pobraniu z szafy właściwego dokumentu w stanie zdekompletowanym.
+
+
+ ST.2_P.10 Zwrot przez użytkownika dokumentu do kancelarii
+
+ ST.2_P.10.a Model Kancelarii z dekretacją dokumentu
+	     Mode of Classified Documents Office system  that supports document assignment
+
+Cel: Goal:
+
+ Zwrot przez użytkownika pobranego dokumentu.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+  Each page od the multipage document must be tagged with separate token.
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+
+ Dokument został udostępniony osobie na którą został zadekretowany.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wykonanie czynności opisanych w ST.2_P.5.a
+
+ Zwrot przez użytkownika pobranego dokumentu do rąk kancelisty.
+
+ Odczytanie przez kancelistę, przy użyciu tacki, kompletności znaczników w dokumencie.
+
+ Zdeponowanie dokumentu w szafie.
+
+ Oczekiwany efekt:
+ Expected results:
+ System odnotowuje zwrot określonego dokumentu na koncie danego użytkownika oraz w Karcie udostępnień dokumentu.
+
+
+ ST.2_P.10.b Model Kancelarii z pisemnym upoważnieniem
+Mode of Classified Documents Office system  that supports written authorization
+
+Cel: Goal:
+
+ Zwrot przez użytkownika pobranego dokumentu.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowany.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page od the multipage document must be tagged with separate token.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+
+
+ Dokument został udostępniony osobie na którą został zadekretowany.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wykonanie czynności opisanych w ST.2_P.5.b
+
+
+ Zwrot przez użytkownika pobranego dokumentu do rąk kancelisty.
+
+
+ Odczytanie przez kancelistę, przy użyciu tacki, kompletności znaczników w dokumencie.
+
+
+ Zdeponowanie dokumentu w szafie.
+
+ Oczekiwany efekt:
+ Expected results:
+ System odnotowuje zwrot określonego dokumentu na koncie danego użytkownika oraz w Karcie udostępnień dokumentu.
+
+
+ ST.2_P.11 Zwrot przez użytkownika dokumentu wielostronicowego w stanie zdekompletowania 
+
+ ST.2_P.11.a Model Kancelarii z dekretacją dokumentu
+	     Mode of Classified Documents Office system  that supports document assignment
+
+Cel: Goal:
+
+ Próba zwrotu przez użytkownika zdekompletowanego dokumentu, który został dla niego udostępniony.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page od the multipage document must be tagged with separate token.
+
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+
+ Dokument został udostępniony osobie na którą został zadekretowany.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wykonanie czynności opisanych w ST.2_P.5.a
+
+
+ Zwrot przez użytkownika pobranego dokumentu do rąk kancelisty.
+
+ Dokument jest w stanie zdekompletowanym, brakuje co najmniej jednego znacznika.
+
+ Odczytanie przez kancelistę, przy użyciu tacki, kompletności znaczników w dokumencie.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz zrozumiałym komunikatem informuje kancelistę o niekompletnym zwracanym dokumencie.
+
+ ST.2_P.11.b Model Kancelarii z pisemnym upoważnieniem
+Mode of Classified Documents Office system  that supports written authorization
+
+Cel: Goal:
+
+ Próba zwrotu przez użytkownika zdekompletowanego dokumentu, który został dla niego udostępniony.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowanego.
+ 
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page od the multipage document must be tagged with separate token.
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniony do pobrania określonych dokumentów.
+
+ Dokument został udostępniony osobie upoważnionej.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wykonanie czynności opisanych w ST.2_P.5.b.
+
+ Zwrot przez użytkownika pobranego dokumentu do rąk kancelisty.
+
+ Dokument jest w stanie zdekompletowanym, brakuje co najmniej jednego znacznika.
+
+ Odczytanie przez kancelistę, przy użyciu tacki, kompletności znaczników w dokumencie.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz zrozumiałym komunikatem informuje kancelistę o niekompletnym zwracanym dokumencie.
+
+ ST.2_P.12 Zwrot przez użytkownika dokumentu wielostronicowego zawierającego nadmiarowy znacznik 
+
+ ST.2_P.12.a Model Kancelarii z dekretacją dokumentu
+	     Mode of Classified Documents Office system  that supports document assignment
+
+Cel: Goal:
+
+ Próba zwrotu przez użytkownika dokumentu, który został dla niego udostępniony wraz z nadmiarowym znacznikiem.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page od the multipage document must be tagged with separate token.
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+
+ Dokument został udostępniony osobie na którą został zadekretowany.
+
+ Posiadanie co najmniej jednej karty oznakowanej prawidłowym znacznikiem, który nie był zarejestrowany w systemie jako znacznik wchodzący w skład danego dokumentu.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wykonanie czynności opisanych w ST.2_P.5.a
+
+ Zwrot przez użytkownika pobranego dokumentu do rąk kancelisty.
+ 
+ Dokument jest w stanie kompletnym oraz dołożona została do dokumentu dodatkowa karta ze znacznikiem nie zarejestrowanym w systemie jako znacznik wchodzący w skład danego dokumentu.
+
+ Odczytanie przez kancelistę, przy użyciu tacki, kompletności znaczników w dokumencie.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz zrozumiałym komunikatem informuje kancelistę o nadmiarowym znaczniku w zwracanym dokumencie.
+
+ ST.2_P.12.b Model Kancelarii z pisemnym upoważnieniem
+Mode of Classified Documents Office system  that supports written authorization
+
+Cel: Goal:
+
+ Próba zwrotu przez użytkownika dokumentu, który został dla niego udostępniony wraz z nadmiarowym znacznikiem.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowany.
+
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page od the multipage document must be tagged with separate token.
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+
+ Dokument został udostępniony osobie upoważnionej.
+
+ Posiadanie co najmniej jednej karty oznakowanej prawidłowym znacznikiem, który nie był zarejestrowany w systemie jako znacznik wchodzący w skład danego dokumentu.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wykonanie czynności opisanych w ST.2_P.5.b
+
+ Zwrot przez użytkownika pobranego dokumentu do rąk kancelisty.
+
+ Dokument jest w stanie kompletnym oraz dołożona została do dokumentu dodatkowa karta ze znacznikiem nie zarejestrowanym w systemie jako znacznik wchodzący w skład danego dokumentu.
+
+ Odczytanie przez kancelistę, przy użyciu tacki, kompletności znaczników w dokumencie.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz zrozumiałym komunikatem informuje kancelistę o nadmiarowym znaczniku w zwracanym dokumencie.
+
+ ST.2_P.13 Zwrot przez użytkownika dokumentu wielostronicowego zawierającego podmieniony znacznik 
+
+ ST.2_P.13.a Model Kancelarii z dekretacją dokumentu
+	     Mode of Classified Documents Office system  that supports document assignment
+
+Cel: Goal:
+
+ Próba zwrotu przez użytkownika dokumentu, który został dla niego udostępniony.
+
+ W dokumencie została podmieniona co najmniej jedna karta na kartę oznakowaną znacznikiem nie zarejestrowanym w systemie.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zadekretowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page of the multipage document must be tagged with separate token.
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniany do pobrania określonych dokumentów.
+ At least one user exists in a User Legder authorized to collect designated documents.
+ Dokument został udostępniony osobie na którą został zadekretowany.
+
+ Posiadanie co najmniej jednej karty oznakowanej prawidłowym znacznikiem, który nie był zarejestrowany w systemie jako znacznik wchodzący w skład danego dokumentu.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wykonanie czynności opisanych w ST.2_P.5.a
+
+ Zwrot przez użytkownika pobranego dokumentu do rąk kancelisty.
+ 
+ Dokument jest w stanie zdekompletowanym, czyli co najmniej jedna karta z dokumentu została podmieniona na kartę ze znacznikiem nie zarejestrowanym w systemie jako znacznik wchodzący w skład danego dokumentu.
+
+ Odczytanie przez kancelistę, przy użyciu tacki, kompletności znaczników w dokumencie.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz zrozumiałym komunikatem informuje kancelistę o zdekompletowanym dokumencie oraz nadmiarowym znaczniku w zwracanym dokumencie.
+
+ ST.2_P.13.b Model Kancelarii z pisemnym upoważnieniem
+Mode of Classified Documents Office system  that supports written authorization
+
+Cel: Goal:
+
+ Próba zwrotu przez użytkownika dokumentu, który został dla niego udostępniony.
+
+ W dokumencie została podmieniona co najmniej jedna karta na kartę oznakowaną znacznikiem nie zarejestrowanym w systemie.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+ the user is logged in the application of Classified Documents Office correctly 
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page of the multipage document must be tagged with separate token.
+ Istnienie w Rejestrze osób upoważnionych co najmniej jednego użytkownika, który jest upoważniony do pobrania określonych dokumentów.
+
+ Dokument został udostępniony osobie upoważnionej.
+
+ Posiadanie co najmniej jednej karty oznakowanej prawidłowym znacznikiem, który nie był zarejestrowany w systemie jako znacznik wchodzący w skład danego dokumentu.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wykonanie czynności opisanych w ST.2_P.5.b
+
+ Zwrot przez użytkownika pobranego dokumentu do rąk kancelisty.
+ 
+ Dokument jest w stanie zdekompletowanym, czyli co najmniej jedna karta z dokumentu została podmieniona na kartę ze znacznikiem nie zarejestrowanym w systemie jako znacznik wchodzący w skład danego dokumentu.
+
+ Odczytanie przez kancelistę, przy użyciu tacki, kompletności znaczników w dokumencie.
+
+ Oczekiwany efekt:
+ Expected results:
+ System generuje alert dla administratora oraz zrozumiałym komunikatem informuje kancelistę o zdekompletowanym dokumencie oraz nadmiarowym znaczniku w zwracanym dokumencie.
+
+ ST_3: Wykonanie kopii dokumentu
+
+ ST.3_P.1 Wskazanie w systemie dokumentu do skopiowania i wykonanie jego kopii 
+
+ Cel:
+
+ Próba wykonania kserokopii dokumentu przechowywanego w Kancelarii.
+
+ Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+ Warunki początkowe:
+ Starting conditions.
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page of the multipage document must be tagged with separate token.
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ Wskazanie dokumentu jako przeznaczonego do skopiowania.
+
+ Pobranie dokumentu z szafy.
+
+ Umieszczenie dokumentu w kserokopiarce wyposażonej w czytnik znaczników RFID.
+
+ Wykonanie kserokopii wielostronicowego dokumentu.
+
+ Rejestracja w systemie wykonanej kserokopii jako wpływ nowego dokumentu z adnotacją, o dokumencie z którego ta kopia została wykonana.
+
+ Zdeponowanie pobranego oraz nowego dokumentu w szafie.
+
+ Oczekiwany efekt:
+ Expected results:
+ System odnotuje wykonanie kserokopii dokumentu, zarejestruje tą kopię jako nowy dokument i przyjmie go na stan Kancelarii.
+ 
+ ST.3_P.2 Kopiowanie dokumentu zdekompletowanego
+
+Cel:
+
+Próba wykonania kserokopii zdekompletowanego dokumentu przechowywanego w Kancelarii.
+
+Uczestnicy: pracownik kancelarii, tester
+ Users:      the Clerk, the tester
+
+Warunki początkowe:
+Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page of the multipage document must be tagged with separate token.
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wskazanie dokumentu jako przeznaczonego do skopiowania.
+
+
+ Pobranie dokumentu z szafy i zdekompletowanie go przez odłączenie co najmniej jednej karty oznakowanej znacznikiem.
+
+
+ Umieszczenie dokumentu w kserokopiarce wyposażonej w czytnik znaczników RFID 
+ Próba wykonania kserokopii zdekompletowanego wielostronicowego dokumentu.
+
+ Oczekiwany efekt:
+ Expected results: 
+System wygeneruje alert dla administratora oraz poinformuje użytkownika zrozumiałym komunikatem o odmowie skopiowania niekompletnego dokumentu.
+Dokument nie zostanie skopiowany.
+
+
+ ST.3_P.3 Kopiowanie dokumentu zawierającego nadmiarowe znaczniki
+
+Cel:
+Goal:
+
+Próba wykonania kserokopii przechowywanego w Kancelarii dokumentu, do którego dodano nadmiarowy znacznik.
+
+Uczestnicy: pracownik kancelarii, tester
+Users:      the Clerk, the tester
+
+Warunki początkowe:
+Starting conditions.
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+
+
+ Istnienie w Dzienniku Ewidencji wielostronicowego dokumentu, który został poprawnie zarejestrowany.
+ A properly assigned multipage document exists in a Record Legder.
+ Dokument musi posiadać każdą stronę oznakowaną odrębnym znacznikiem.
+ Each page of the multipage document must be tagged with separate token.
+
+ Posiadanie co najmniej jednej karty oznakowanej znacznikiem dotychczas nie użytym w systemie.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Wskazanie dokumentu jako przeznaczonego do skopiowania.
+
+
+ Wyjęcie dokumentu z szafy i dodanie do niego co najmniej jednej dodatkowej karty oznakowanej znacznikiem.
+
+
+ Umieszczenie dokumentu w kserokopiarce wyposażonej w czytnik znaczników RFID 
+ Próba wykonania kserokopii wielostronicowego dokumentu z nadmiarowym znacznikiem.
+
+ Oczekiwany efekt:
+ Expected results:
+System wygeneruje alert dla administratora oraz poinformuje użytkownika zrozumiałym komunikatem o odmowie skopiowania dokumentu zawierającego więcej znaczników niż zostało zarejestrowane w systemie.
+
+
+ ST_4: Wysyłka materiałów
+
+
+ ST.4_P.1 Rejestracja w systemie odesłania materiałów przechowywanych w kancelarii tajnej lub stworzonych w jednostce dokumentu jednostronicowego zawierającego prawidłowy znacznik przypadku negatywnej weryfikacji.
+
+Cel:
+
+Próba wysyłki materiałów przechowywanych w kancelarii tajnej lub stworzonych w jednostce dokumentu jednostronicowego zawierającego prawidłowy znacznik.
+
+Uczestnicy: pracownik kancelarii, tester (interesant).
+Users:      the Clerk, the tester (interesary)
+
+Warunki początkowe:
+Starting conditions.
+
+ Weryfikacja uprawnień dostępu do wybranego materiału zawierającego prawidłowe dane i prawidłowy zarejestrowany w systemie nieuszkodzony znacznik.
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Weryfikacja czy materiał wymaga dopracowania.
+Zweryfikować możliwość odesłania materiału do poprawki.
+
+
+ Weryfikacja czy proces kończy się brakiem rejestracji wysyłki materiału i widoczny będzie na liście procesów zakończonych.
+
+
+ Zwrot przez kancelistę pobranego dokumentu do rąk testera (interesanta).
+
+
+ Weryfikacja czy dokument jest w stanie kompletowanym.
+
+ Oczekiwany efekt:
+ Expected results:
+System generuje informację dla kancelisty i dla administratora o tym, że dostarczony do kancelarii materiał wymaga dopracowania i należy go odesłać z powrotem do jednostki.
+
+Warunki końcowe:
+
+
+ Weryfikacja czy materiał został zdeponowany i czy stan w szafie jest zgodny z systemem.
+
+
+ Weryfikacja poprawnego wylogowania z aplikacji.
+
+
+ ST.4_P.2 Rejestracja w systemie wysyłki dokumentów przechowywanych w kancelarii tajnej lub stworzonych w jednostce dokumentu jednostronicowego zawierającego prawidłowy znacznik 
+ 
+ Cel:
+
+Próba wysyłki dokumentów przechowywanych w kancelarii tajnej lub stworzonych w jednostce dokumentu jednostronicowego zawierającego prawidłowy znacznik przez kancelistę.
+Dokument zawiera prawidłowe dane i prawidłowy zarejestrowany w systemie nieuszkodzony znacznik.
+
+Uczestnicy: pracownik kancelarii, tester (interesant).
+Users:      the Clerk, the tester (interesary)
+
+Warunki początkowe:
+Starting conditions.
+
+ Weryfikacja uprawnień dostępu do wybranego dokumentu zawierającego prawidłowe dane i prawidłowy zarejestrowany w systemie nieuszkodzony znacznik.
+
+
+ Poprawne zalogowanie się pracownika kancelarii do aplikacji.
+
+
+ Uruchomienie formularza startowego – przyjęcie i weryfikacja dokumentu.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Zarejestrować dokument zgodnie z ST.1_P.5 (bez konieczności umieszczania w szafie).
+
+
+ Zweryfikować czy proces kończy się rejestracją wysyłki dokumentu i czy dokument widoczny będzie na liście procesów zakończonych.
+
+
+ Zwrot przez kancelistę pobranego dokumentu do rąk testera (użytkownik uprawniony do przekazania przesyłki).
+
+ Oczekiwany efekt:
+ Expected results:
+System generuje informację dla kancelisty i dla administratora o tym, że wysłany dokument został prawidłowo zarejestrowany i wysłany a informacja o wysyłce została odnotowana w systemie.
+
+Warunki końcowe:
+
+Weryfikacja czy dokumenty zostały zdeponowane i czy stan dokumentów w szafie jest zgodny z systemem.
+
+
+ ST.4_P.3 Rejestracja w systemie wysyłki materiałów przechowywanych w kancelarii tajnej i stworzonego w jednostce dokumentu jednostronicowego zawierającego prawidłowy znacznik.
+
+
+•
+
+Cel:
+
+Próba wysyłki dokumentu i materiałów przechowywanych w kancelarii tajnej.
+
+Uczestnicy: pracownik kancelarii, tester (interesant).
+Users:      the Clerk, the tester (interesary)
+
+Warunki początkowe:
+Starting conditions.
+
+ Poprawne zalogowanie się pracownika kancelarii do aplikacji.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+
+ Należy wprowadzić wysyłkę dokumentu i materiału w systemie.
+
+
+ Weryfikacja czy proces kończy się rejestracją wysyłki dokumentu i czy widoczny będzie na liście procesów zakończonych a informacja o wysyłce została prawidłowo odnotowana w systemie.
+
+ Oczekiwany efekt:
+ Expected results:
+System generuje informację dla kancelisty i dla administratora o tym, że wysłany dokument został prawidłowo zarejestrowany i wysłany a informacja o wysyłce została prawidłowo odnotowana w systemie.
+
+Warunki końcowe:
+
+Weryfikacja czy stan materiałów w szafie jest zgodny z systemem.
+
+
+ ST.4_P.4 Weryfikacja błędów przy przetwarzaniu informacji niejawnych w zakresie materiałów wychodzących.
+
+
+•
+
+Cel:
+
+Próba wysyłki przez kancelistę materiałów przechowywanych w kancelarii tajnej lub stworzonych w jednostce dokumentu wielostronicowego zawierającego prawidłowe znaczniki.
+Dokument jest zwrócony z powodu błędu.
+
+Uczestnicy: pracownik kancelarii, tester (interesant).
+Users:      the Clerk, the tester (interesary)
+
+Warunki początkowe:
+Starting conditions.
+Poprawne zalogowanie się pracownika kancelarii do aplikacji.
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform:
+
+ Weryfikacja czy jest możliwość zwrotu materiału lub dokumentu od kuriera z powodu błędnego wypełnienia danych adresata.
+
+
+ Weryfikacja czy jest możliwość poprawienia danych i ponownego wysłania dokumentu.
+
+
+ Zwrot przez kancelistę pobranego dokumentu do rąk testera (użytkownik uprawniony do przekazania przesyłki).
+Dokument jest w stanie kompletnym.
+
+
+ Zweryfikować czy da się wysłać dokument bez znacznika.
+
+
+ Zweryfikować czy da się wysłać dokument z uszkodzonym znacznikiem.
+
+
+ Zweryfikować czy da się wysłać dokument z podmienionym znacznikiem.
+
+ Oczekiwany efekt:
+ Expected results:
+System generuje informację dla kancelisty i dla administratora o tym, że dokument został poprawiony/odrzucony/zlikwidowany, czy czynność jest prawidłowo zarejestrowana.
+
+Warunki końcowe:
+
+Weryfikacja czy dokumenty zostały zdeponowane i czy stan dokumentów w szafie jest zgodny z systemem.
+
+
+ ST_5: Zniszczenie materiału
+
+
+ ST.5_P.1 Rejestracja w systemie danych dotyczących komisyjnego zniszczenia dokumentu oraz składu komisji dla dokumentu jednostronicowego zawierającego prawidłowy znacznik 
+•
+
+Cel:
+
+Próba rejestracji w systemie danych dotyczących komisyjnego zniszczenia materiałów lub dokumentu oraz składu komisji.
+Niszczeniu podlega dokument jednostronicowy zawierającego prawidłowy znacznik.
+
+Uczestnicy: pracownik kancelarii, tester (interesant).
+Users:      the Clerk, the tester (interesary)
+
+Warunki początkowe:
+Starting conditions.
+
+ Weryfikacja uprawnień dostępu do wybranego dokumentu.
+
+
+ Poprawne zalogowanie się pracownika kancelarii do aplikacji.
+
+ Sekwencja czynności do wykonania:
+ Sequence of actions to perform:
+ 
+ Próba wprowadzania informacji o zniszczonym dokumencie.
+
+
+ Wyszukanie dokumentu, który ma zostać zarejestrowany jako zniszczony za pomocą tacki.
+Wykonanie skanu protokołu zniszczenia (w formacie pdf) i załączenie go do listy usuwanych dokumentów.
+
+Oczekiwany efekt:
+Expected results:
+System generuje informację dla kancelisty i dla administratora o tym, że dokument został zlikwidowany, prawidłowo zarejestrowano jego likwidację w rubrykach rejestru dziennika ewidencyjnego.
+System nie komunikuje o rozbieżności w inwentaryzacji.
+Po likwidacji dokumentu stan systemu jest zgodny ze stanem szafy.
+
+System pozwala na przejrzenie i wyszukanie informacji w załączonym skanie dokumentu potwierdzającego zniszczenie.
+
+Warunki końcowe:
+
+Weryfikacja czy dokument został zniszczony i czy stan dokumentów w szafie jest zgodny z systemem.
+
+
+ ST.5_P.2 Rejestracja w systemie danych dotyczących komisyjnego zniszczenia minimum dwóch dokumentów wielostronicowych zawierających prawidłowe znaczniki 
+•
+
+Cel:
+
+Próba rejestracji w systemie danych dotyczących komisyjnego zniszczenia minimum dwóch dokumentów wielostronicowych zawierających prawidłowe znaczniki i jednej płyty CD/DVD.
+Dokumenty zawierają prawidłowe dane i są prawidłowo zarejestrowane w systemie, mają nieuszkodzone znaczniki.
+
+Uczestnicy: pracownik kancelarii, tester (interesant)
+Users:      the Clerk, the tester (interesary)
+
+Warunki początkowe:
+Starting conditions.
+
+Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform:
+
+ Weryfikacja możliwości wprowadzania zniszczenia minimum dwóch dokumentów wielostronicowych zawierających prawidłowe znaczniki i jednej płyty CD o innej klauzuli tajności niż dokumenty.
+
+
+ Wyszukanie dokumentów, które mają zostać zarejestrowane jako zniszczone, jednego za pomocą wyszukiwarki aplikacji, pozostałych za pomocą czytnika RFID tacki i/lub tunelu.
+
+Oczekiwany efekt:
+Expected results:
+System generuje informację dla kancelisty i dla administratora o tym, że dokumenty zostały zlikwidowane.
+System nie komunikuje o rozbieżności w inwentaryzacji.
+
+Warunki końcowe:
+
+Weryfikacja czy dokumenty zostały zniszczone i czy stan dokumentów w szafie jest zgodny z systemem.
+
+
+ ST_6: Zmiana klauzuli tajności
+
+
+ ST.6_P.1 Rejestracja w systemie danych dotyczących zmiany klauzuli tajności dla dokumentu jednostronicowego zawierającego prawidłowy znacznik 
+ Cel:
+
+Próba rejestracji w systemie danych dotyczących zmiany klauzuli tajności dla dokumentu jednostronicowego zawierającego prawidłowy znacznik.
+Dokument zawiera prawidłowe dane i prawidłowy zarejestrowany w systemie nieuszkodzony znacznik.
+
+Uczestnicy: pracownik kancelarii, tester (interesant).
+Users:      the Clerk, the tester (interesary)
+
+Warunki początkowe:
+Starting conditions.
+
+ Weryfikacja uprawnień dostępu do wybranego dokumentu zawierającego prawidłowe dane i prawidłowy zarejestrowany w systemie nieuszkodzony znacznik.
+
+
+ Weryfikacja uprawnień do zmiany klauzuli tajności.
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform:
+
+ Weryfikacja poprawnego wprowadzenie nowej klauzuli tajności.
+
+
+ Próba wyszukania w ewidencji dokumentu poprzez wyszukiwarkę w aplikacji.
+
+
+ Próba wyszukania w ewidencji dokument poprzez odczytanie znacznika RFID (tacka, tunel) i próba zmiany klauzuli dla wybranego dokumentu.
+
+
+ Weryfikacja czy system automatycznie zmienił dane dotyczące klauzuli tajności dokumentu.
+
+Oczekiwany efekt:
+Expected results:
+System generuje informację dla kancelisty i dla administratora o tym, że dla wybranego dokumentu, prawidłowo zarejestrowano zmianę jego klauzuli w rubrykach rejestru dziennika ewidencyjnego.
+Po zmianie klauzuli dokumentu stan ewidencyjny systemu jest zgodny ze stanem szafy.
+
+Warunki końcowe:
+
+Weryfikacja czy stan dokumentów w szafie jest zgodny z systemem.
+
+
+ ST.6_P.2 Rejestracja w systemie danych dotyczących zmiany klauzuli tajności dla minimum dwóch dokumentów wielostronicowych zawierających prawidłowe załączniki w dwóch różnych klauzulach 
+•
+
+Cel:
+
+Próba rejestracji w systemie danych dotyczących zmiany klauzuli tajności dla minimum dwóch dokumentów wielostronicowych zawierających prawidłowe załączniki w dwóch różnych klauzulach.
+
+Uczestnicy: pracownik kancelarii, tester (interesant).
+Users:      the Clerk, the tester (interesary)
+
+Warunki początkowe:
+Starting conditions.
+
+ Weryfikacja uprawnień do zmiany klauzuli tajności.
+
+
+ Poprawne zalogowanie się pracownika kancelarii do aplikacji.
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform:
+
+ Próba wprowadzenia zmiany klauzuli tajności.
+
+
+ Weryfikacja czy system automatycznie zmienił dane dotyczące klauzuli tajności wszystkich dokumentów z listy.
+
+
+ Weryfikacja prawidłowego poinformowania o zmianie klauzuli tajności dokumentu wszystkich uczestników procesu określonych w ustawie.
+
+Oczekiwany efekt:
+Expected results:
+System generuje informację dla kancelisty i dla administratora o tym, że dla wybranych dokumentów, prawidłowo zarejestrowano zmianę ich klauzuli w rubrykach rejestrów dzienników ewidencyjnych.
+
+Warunki końcowe:
+
+Weryfikacja czy stan dokumentów w szafie jest zgodny z systemem
+
+
+ ST_7 Identyfikacja znaczników
+
+
+ ST.7_P.1 Rejestracja dokumentu przy wykorzystaniu znaczników nieuprawnionych do użycia w systemie 
+ Cel:
+
+Próba rejestracji dokumentu przy wykorzystaniu znacznika niedopuszczonego do użytkowania w systemie.
+
+Uczestnicy: pracownik kancelarii, tester
+Users:      the Clerk, the tester
+
+Warunki początkowe:
+Starting conditions.
+
+ Obligatoryjna ewidencja znaczników dostarczonych do Kancelarii.
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+
+
+ Posiadanie co najmniej 3 znaczników działających na częstotliwości systemu Kancelarii, nieprzeznaczonych do wykorzystania w systemie.
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform:
+
+ Wykonanie czynności opisanych w ST.1_P.5 i rejestracja kolejnych dokumentów z wykorzystaniem funkcjonalności odczytu znaczników nieprzeznaczonych do wykorzystania w systemie.
+
+Oczekiwany efekt:
+Expected results:
+Aplikacja nie pozwala na prawidłową rejestrację dokumentu przy użyciu znacznika nieuprawnionego do wykorzystania w systemie.
+Użycie nieprawidłowego znacznika jest sygnalizowane użytkownikowi zrozumiałym komunikatem.
+
+
+ ST.7_P.2 Zdeponowanie w szafie znacznika nie dopuszczonego do użytku w systemie 
+ Cel: Goal:
+
+Próba zdeponowania w szafie nośnika informacji oznakowanego znacznikiem niedopuszczonym do użytkowania w systemie.
+
+Uczestnicy: pracownik kancelarii, tester
+Users:      the Clerk, the tester
+
+Warunki początkowe:
+Starting conditions.
+
+ Obligatoryjna ewidencja znaczników dostarczonych do Kancelarii.
+
+
+ Poprawne zalogowanie się pracownika Kancelarii do aplikacji.
+
+
+ Posiadanie co najmniej 3 znaczników działających na częstotliwości systemu Kancelarii, nieprzeznaczonych do wykorzystania w systemie.
+
+Sekwencja czynności do wykonania:
+Sequence of actions to perform:
+
+ Wykonanie wszystkich czynności opisanych w ST.1_P.10, zdeponowanie w szafie wszystkich nośników informacji oraz umieszczenie w szafie dokumentów posiadających 3 znaczniki nieprzeznaczone do wykorzystania w systemie.
+
+Oczekiwany efekt:
+Expected results:
+Po zamknięciu szafy system sygnalizuje wykrycie nierozpoznanych lub nieprawidłowych znaczników.
+Generowany jest alert do administratora systemu oraz zaistnienie tego zdarzenia jest sygnalizowane użytkownikowi zrozumiałym komunikatem.
+
